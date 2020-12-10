@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Conctract(models.Model):
+class Contract(models.Model):
     name = models.CharField(max_length=100, help_text="Enter a city name for a contract")
     zakupkiId = models.CharField(max_length=50, help_text="Enter an id from zakupki.gov.ru")
     dateStart = models.DateField()
@@ -19,7 +19,7 @@ class Task(models.Model):
     contract = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True)
     datetimeStart = models.DateTimeField()
     datetimeEnd = models.DateTimeField()
-    status = models.CharField(max_length=1, , help_text="Enter a task status")
+    status = models.CharField(max_length=1, help_text="Enter a task status")
 
     def __str__(self):
         return self.title
