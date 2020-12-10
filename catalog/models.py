@@ -11,8 +11,6 @@ class Contract(models.Model):
         return self.name
 
 
-
-
 class Task(models.Model):
     name = models.CharField(max_length=200, help_text="Enter a task name")
     description = models.TextField(help_text="Enter a task description")
@@ -20,6 +18,16 @@ class Task(models.Model):
     datetimeStart = models.DateTimeField()
     datetimeEnd = models.DateTimeField()
     status = models.CharField(max_length=1, help_text="Enter a task status 0 - active, 1 - completed")
+
+    def __str__(self):
+        return self.name
+
+
+class Document(models.Model):
+    name = models.CharField(max_length=200, help_text="Enter a Document name")
+    description = models.TextField(help_text="Enter a Document description")
+    file = models.FileField(upload_to='uploads/')
+    contract = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name

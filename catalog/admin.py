@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Contract, Task
+from .models import Contract, Task, Document
 
 # Define the admin class
 @admin.register(Contract)
@@ -10,7 +10,8 @@ class ContractAdmin (admin.ModelAdmin):
 class TaskAdmin (admin.ModelAdmin):
     list_display = ('name','description','contract','datetimeStart','datetimeEnd','status')
 
-class DocumentAdmin (admin.DocumentAdmin):
+@admin.register(Document)
+class DocumentAdmin (admin.ModelAdmin):
     list_display = ('name','description','file','contract')
 # admin.site.register(Contract, ContractAdmin)
 # admin.site.register(Contract)
