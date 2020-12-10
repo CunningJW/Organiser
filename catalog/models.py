@@ -8,7 +8,7 @@ class Contract(models.Model):
     dateEnd = models.DateField()
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 
@@ -19,7 +19,7 @@ class Task(models.Model):
     contract = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True)
     datetimeStart = models.DateTimeField()
     datetimeEnd = models.DateTimeField()
-    status = models.CharField(max_length=1, help_text="Enter a task status")
+    status = models.CharField(max_length=1, help_text="Enter a task status 0 - active, 1 - completed")
 
     def __str__(self):
-        return self.title
+        return self.name
