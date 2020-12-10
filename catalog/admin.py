@@ -9,6 +9,9 @@ class ContractAdmin (admin.ModelAdmin):
 @admin.register(Task)
 class TaskAdmin (admin.ModelAdmin):
     list_display = ('name','description','contract','datetimeStart','datetimeEnd','status')
+
+class DocumentAdmin (admin.DocumentAdmin):
+    list_display = ('name','description','file','contract')
 # admin.site.register(Contract, ContractAdmin)
 # admin.site.register(Contract)
 #admin.site.register(Task)
