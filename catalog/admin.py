@@ -1,6 +1,19 @@
 from django.contrib import admin
-from .model import Contract, Task
+from .models import Contract, Task, Document
 
-admin.user.register(Contract)
-admin.user.register(Task)
+# Define the admin class
+@admin.register(Contract)
+class ContractAdmin (admin.ModelAdmin):
+    list_display = ('zakupkiId','contractName','dateStart','dateEnd','display_tasks')
+
+@admin.register(Task)
+class TaskAdmin (admin.ModelAdmin):
+    list_display = ('taskName','description','contract','datetimeStart','datetimeEnd','status')
+
+@admin.register(Document)
+class DocumentAdmin (admin.ModelAdmin):
+    list_display = ('documentName','description','file','contract')
+# admin.site.register(Contract, ContractAdmin)
+# admin.site.register(Contract)
+#admin.site.register(Task)
 # Register your models here.
