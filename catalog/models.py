@@ -13,6 +13,8 @@ class Contract(models.Model):
         selfTasks = Task.objects.filter(contract__contractName=self.contractName)
         return ', '.join([task.taskName for task in selfTasks])
 
+    class Meta:
+        db_table = "Contract"
 
 class Task(models.Model):
     taskName = models.CharField(max_length=200, help_text="Enter a task name")
