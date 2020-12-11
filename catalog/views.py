@@ -21,7 +21,7 @@ def client(request):
     return render(request, "tableofcontracts.html")
 
 @api_view(['GET','POST'])
-def list_contract_names(request):
+def list_contract(request):
     if request.method == "GET":
         contract = Contract.objects.all()
         serializer = ContractSerializer(contract, many = True)
