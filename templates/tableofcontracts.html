@@ -56,8 +56,19 @@
   </head>
 
   <body>
-    <h1>Contracts</h1>
-    <button onclick="getContracts()">List</button>
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div align="left" class="col">
+          <h1>Contracts </h1>
+        </div>
+        <div align="right" class="col">
+          <button onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">
+              LogOut
+          </button>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block" onclick="getContracts()">List</button>
   	<table class="table table-striped" id = "contracts">
   		<thead>
   			<tr>
@@ -79,5 +90,12 @@
   			</tr> -->
   		</tbody>
   	</table>
+    <style>
+      .btn-block {
+        width: 250px;
+        background: #29aafe;
+        border-color: #29aafe;
+      }
+    </style>
   </body>
 </html>
