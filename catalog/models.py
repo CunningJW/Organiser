@@ -10,7 +10,7 @@ class Contract(models.Model):
     def __str__(self):
         return self.contractName
     def display_tasks(self):
-        selfTasks = Task.objects.filter(contract__contractName='Cars')
+        selfTasks = Task.objects.filter(contract__contractName=self.contractName)
         return ', '.join([task.taskName for task in selfTasks])
 
 
