@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Contract(models.Model):
@@ -12,6 +13,9 @@ class Contract(models.Model):
     def display_tasks(self):
         selfTasks = Task.objects.filter(contract__contractName = self.contractName)
         return ', '.join([task.taskName for task in selfTasks])
+    def get_absolute_url(self):
+        # return reverse('contract-detail', args=[str(self.id)])
+        return "kek"
 
     class Meta:
         db_table = "Contract"
