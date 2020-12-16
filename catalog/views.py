@@ -23,11 +23,14 @@ def client(request):
 
 class ContractView(generics.ListAPIView):
     def get(self, request):
+        user(request)
         template_name = 'tableofcontracts.html'
         contracts = Contract.objects.all()
         serializer = ContractSerializer(contracts, many=True)
         return Response(serializer.data)
 
+def user(request):
+    return request.user
 # @api_view(['GET','POST'])
 # def list_contract(request):
 #     if request.method == "GET":

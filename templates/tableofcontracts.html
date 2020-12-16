@@ -11,15 +11,13 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    {% block title %}
     <script>
-    var URL = "/catalog/rest_contract/";
-    // var URL2 = "/catalog/rest_task";
+    var URL = "/catalog/rest_contract";
+
     $(document).ready(
       function()
       {
-        $("#table1").hide();
-        // $("#table2").hide();
+        $("#contracts").hide();
       }
     )
 
@@ -27,11 +25,6 @@
     {
       $.getJSON(URL,{},showContracts);
     }
-
-    // function getTasks()
-    // {
-    //   $.getJSON(URL,{},showTasks);
-    // }
 
     function getContract()
     {
@@ -50,37 +43,44 @@
 
     function showContracts(contracts)
     {
-      $("#rows").html("")
+      $("#contractrows").html("")
       $.each(contracts, function(idx,contract)
                         {
-                            $("#rows").append("<tr><td>" + contract.zakupkiId + "</td><td><a href = " + contract.contractName + ".html>" + contract.contractName +  "</a></td><td>" + contract.display_tasks + " </td></tr>");
+                            $("#contractrows").append("<tr><td>" + contract.zakupkiId + "</td><td><a href = " + contract.get_absolute_url + ">" + contract.contractName +  "</a></td><td>" + contract.display_tasks + " </td></tr>");
                         }
             );
-            $("#table1").show();
+            $("#contracts").show();
     }
-
-    // function showTasks(tasks)
-    // {
-    //   $("#table2").hide();
-    //   $("#rows2").html("")
-    //   $.each(tasks, function(idx,tasks)
-    //                     {
-    //                         $("#rows2").append("<tr><td>" + task.taskName + "</td><td>" + task.contract + "</td><td>" + contract.datetimeEnd + " </td></tr>");
-    //                     }
-    //         );
-    //         $("#table2").show();
-    // }
     </script>
-    <title>Current Contracts</title> {% endblock %}
+    <title>Current Contracts</title>
   </head>
 
   <body>
-    <div class="container-fluid">
+    <body class="table-page">
+      <body class="main-page">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div align="left" class="col">
+              <h2 >Contracts</h2>
+            </div>
+            <div align="middle" class="col">
+              <picture>
+                <img src="Logo.png" class="img-fluid">
+              </picture>
+            </div>
+            <div align="right" class="col">
+              <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
+            </div>
+          </div>
+        </div>
+
+      <hr class="hr-xs">
+
+
+    <!-- <div class="container-fluid">
       <div class="row align-items-center">
         <div align="left" class="col">
-          {% block content %}
-          <h1>Contracts</h1>
-          {% endblock %}
+          <h1>Contracts </h1>
         </div>
         <div align="right" class="col">
           <button onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">
@@ -88,41 +88,65 @@
           </button>
         </div>
       </div>
-    </div>
-    <div class="btn-group">
-       <div>
-         <button class="btn btn-primary btn-block" onclick="getContracts()">Contracts</button>
-       </div>
-        <!-- <div>
-          <button class="btn btn-primary btn-block" onclick="getTasks()">Tasks</button>
+    </div> -->
+
+
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div align="left" class="col">
+            <button class="btn btn-primary btn-block" onclick="getContracts()">List</button>
+          </div>
+
+          <div "row justify-content-end">
+            <form class="form-inline">
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+              <button  class="btn btn-primary btn-sm" type="button">Search</button>
+            </form>
+          </div>
         </div>
-        <div>
-          <button class="btn btn-primary btn-block" onclick="getContracts()">Documents</button>
-        </div> -->
-    </div>
-  	<table class="table table-striped" id = "table1">
+      </div>
+
+    <div id="tabCont" class="container">
+  	     <table id = "contracts" class="table table-striped">
   		<thead>
   			<tr>
   				<th scope = "col"> № </th>
   				<th scope = "col"> Contract </th>
-  				<th scope = "col"> Tasks </th>
+  				<th scope = "col"> Description </th>
   			</tr>
   		</thead>
-  		<tbody id = "rows">
+      <!-- <tfoot>
+        <tr>
+  				<th scope = "col"> № </th>
+  				<th scope = "col"> Contract </th>
+  				<th scope = "col"> Description </th>
+  			</tr>
+      <tfoot> -->
+  		<tbody id = "contractrows">
+  			<!-- <tr>
+  				<th scope = "row"> 1 </th>
+  				<td><a href = "index1.html"> Moscow </a></td>
+  				<td> Hello Moscow </td>
+  			</tr>
+  			<tr>
+  				<th scope = "row"> 2 </th>
+  				<td><a href = "index1.html"> Ufa </a></td>
+  				<td> Hello Ufa </td>
+  			</tr> -->
   		</tbody>
   	</table>
-    <!-- <table class="table2 table-striped2" id = "table2">
-      <thead>
-        <tr>
-          <th scope = "col"> Name </th>
-          <th scope = "col"> Contract </th>
-          <th scope = "col"> DataTimeEnd </th>
-        </tr>
-      </thead>
-      <tbody id = "rows2">
-      </tbody>
-      </table>-->
+    </body>
     <style>
+      .hr-xs
+      {
+        margin-top:5px;
+        margin-bottom:5px
+      }
+      .table-page
+      {
+        background-color:#b3deff
+      }
       .btn-block {
         width: 250px;
         background: #29aafe;
