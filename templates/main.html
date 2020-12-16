@@ -8,25 +8,23 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 
-<body>
-  <body class="main-page">
+<body class="main-page">
+  <nav class="navbar " sticky-top>
     <div class="container-fluid">
-      <div class="row align-items-center">
         <div align="left" class="col">
-          <h2 >Главная страница </h2>
+          <h2 >Главная страница</h2>
         </div>
         <div align="middle" class="col">
           <picture>
             <img src="{%static 'LogoInversed.png'%}"/>
           </picture>
         </div>
-        <div align="right" class="col">
-          <button  class="btn btn-primary btn-block" onclick="location.href='{% url 'login' %}'" type="submit">ВОЙТИ</button>
+        <div id="ButnNav" align="right" class="col">
+          <button  onclick="location.href='{% url 'login' %}'" class="btn btn-primary btn-block" type="submit">Войти</button>
         </div>
-      </div>
     </div>
+  </nav>
 
-  <hr class="hr-xs">
 <div class="row no-gutters">
   <div class="col-12 col-sm-6 col-md-8">
       {% block content %} {% endblock %}
@@ -41,7 +39,7 @@
 
   ​<picture>
     <!-- <source srcset="C:\Users\Сергей\Git\Organiser\templates" type="image/svg+xml"> -->
-    <img src="mainSerIm.jpg" class="img-fluid" alt="Responsive image">
+    <img src="{%static 'boxes.jpg'%}" class="img-fluid" alt="Responsive image">
   </picture>
 
   <div class="fixed-bottom">
@@ -62,9 +60,18 @@
 
 
 <style>
+#ButnNav
+{
+  margin-left: auto;
+  margin-right: 1%;
+}
+.navbar
+{
+  background-color:#80c8ff
+}
 .fixed-bottom
 {
-  background-color:#b3deff
+  background-color:#80c8ff
 }
   .btn-block
   {
@@ -72,10 +79,6 @@
     background:#29aafe;
     border-color:#29aafe;
   }
-.container-fluid
-{
-  background-color:#b3deff
-}
 </style>
 </body>
 
