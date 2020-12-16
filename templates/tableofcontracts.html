@@ -36,7 +36,7 @@
 
       <hr class="hr-xs">
 
-    <div class ='container' id = 'contractCards'></div>
+    {% block title %}<div class ='container' id = 'contractCards'></div> {% endblock %}
 
 
   </body>
@@ -79,6 +79,7 @@
 
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
+  {%block content%}
   <script>
   var URL = "/catalog/rest_contract/";
 
@@ -139,4 +140,5 @@
     $("#contractCards").append(content)
   }
   </script>
+  {%endblock%}
 </html>

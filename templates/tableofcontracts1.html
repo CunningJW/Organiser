@@ -28,10 +28,10 @@
       $.getJSON(URL,{},showContracts);
     }
 
-    // function getTasks()
-    // {
-    //   $.getJSON(URL,{},showTasks);
-    // }
+    function getTasks()
+    {
+      $.getJSON(URL,{},showTasks);
+    }
 
     function getContract()
     {
@@ -59,17 +59,17 @@
             $("#table1").show();
     }
 
-    // function showTasks(tasks)
-    // {
-    //   $("#table2").hide();
-    //   $("#rows2").html("")
-    //   $.each(tasks, function(idx,tasks)
-    //                     {
-    //                         $("#rows2").append("<tr><td>" + task.taskName + "</td><td>" + task.contract + "</td><td>" + contract.datetimeEnd + " </td></tr>");
-    //                     }
-    //         );
-    //         $("#table2").show();
-    // }
+    function showTasks(tasks)
+    {
+      $("#table2").hide();
+      $("#rows2").html("")
+      $.each(tasks, function(idx,tasks)
+                        {
+                            $("#rows2").append("<tr><td>" + task.taskName + "</td><td>" + task.contract + "</td><td>" + contract.datetimeEnd + " </td></tr>");
+                        }
+            );
+            $("#table2").show();
+    }
     </script>
     <title>Current Contracts</title> {% endblock %}
   </head>
