@@ -29,30 +29,26 @@
         <img src="{%static 'LogoLogin.png'%}" class="img-fluid">
         </picture>
         <!-- Логотип -->
-        <h1>Введите свои данные</h1>
+        <h1>Log In</h1>
         <form method="post" action="{% url 'login' %}">
           {% csrf_token %}
           <div class="form-group">
             <div class="input-group mb-3">
-              <!-- <div class = "input-group-addon" > -->
-                <span class="input-group-addon" id = "log"><i class="fa fa-user ti-user"></i></span>
-                <span class = "input-group-addon" id = "log"> Логин </span>
-              <!-- </div> -->
+              <span class="input-group-addon"><i class="fa fa-user ti-user"></i></span>
+              <span class = "input-group-addon"> Username </span>
               <span class="input-group-text" aria-describedby="log"> {{ form.username }} </span>
             </div>
           </div>
 
           <div class="form-group">
             <div class="input-group mb-3">
-              <!-- <div class = "input-group-addon"> -->
-                <span class="input-group-addon" id = "pass"><i class="fa fa-lock ti-unlock"></i></span>
-                <span class = "input-group-addon" id = "pass"> Пароль </span>
-              <!-- </div> -->
+              <span class="input-group-addon"><i class="fa fa-lock ti-unlock"></i></span>
+              <span class = "input-group-addon"> Password </span>
               <span class="input-group-text" aria-describedby="pass">{{ form.password }}</span>
             </div>
           </div>
 
-          <button class="btn btn-primary btn-block" type="submit">ВОЙТИ</button>
+          <button class="btn btn-primary btn-block" type="submit">Submit</button>
 
 
         </form>
@@ -96,9 +92,10 @@
 }
 .login-block h1
 {
-  font-size:22px;
+  font-size:30px;
+  font-weight: 600;
   margin-bottom:60px;
-  margin-top:40px
+  margin-top:10px
 }
 .login-block h6
 {
