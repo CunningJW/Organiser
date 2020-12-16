@@ -14,30 +14,36 @@
     <title>Current Contracts</title>
   </head>
 
-  <body>
-    <body class="table-page">
-      <body class="main-page">
-        <div class="container-fluid">
-          <div class="row align-items-center">
-            <div align="left" class="col">
-              <h2 >Contracts</h2>
-            </div>
-            <div align="middle" class="col">
-              <picture>
-                <img src="Logo.png" class="img-fluid">
-              </picture>
-            </div>
-            <div align="right" class="col">
-              <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
-            </div>
+  <body class="table-page">
+        <nav class="navbar " sticky-top>
+          <div class="container-fluid">
+              <div align="left" class="col">
+                <h2 >Contracts</h2>
+              </div>
+              <div align="middle" class="col">
+                <picture>
+                  <img src="Logo.png" class="img-fluid">
+                </picture>
+              </div>
+              <div id="ButnNav" align="right" class="col">
+                <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
+              </div>
           </div>
-        </div>
+        </nav>
 
-      <hr class="hr-xs">
 
     <div class ='container' id = 'contractCards'></div>
 
     <style>
+      #ButnNav
+      {
+        margin-left: auto;
+        margin-right: 1%;
+      }
+      .navbar
+      {
+        background-color:#80c8ff
+      }
       .card-body
       {
         background:linear-gradient(to left, #1f75ff, #85b4ff);
