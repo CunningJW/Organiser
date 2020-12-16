@@ -4,8 +4,8 @@ from catalog import views
 
 
 urlpatterns = [
-    path('rest_contract/',  views.list_contract),
-    path('rest_task/',  views.list_task),
+    path('rest_contract/',  views.ContractView.as_view()),
+    # path('rest_task/',  views.list_task),
     # re_path('rest_contract/(?P<contractName>\w+)/$', views.contract_details),
     path('rest_client/', views.client),
     path('accounts/', include('django.contrib.auth.urls')),
