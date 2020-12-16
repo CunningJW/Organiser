@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div align="left" class="col">
+        <h2>Главная страница </h2>
+      </div>
+      <div align="right" class="col">
+        <button onclick="location.href='{% url 'login' %}'" class="btn btn-primary btn-block" type="submit">
+            ВОЙТИ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hr-xs">
+  <h4><i>
+      Заполнение страницы важной информациеей о компании
+    </i></h4>
+
+
+
+
+
+
+
+  <style>
+    .btn-block {
+      width: 250px;
+      background: #29aafe;
+      border-color: #29aafe;
+    }
+
+    .container-fluid {
+      background-color: #b3deff
+    }
+  </style>
+</body>
+
+</html>
