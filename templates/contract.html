@@ -1,5 +1,5 @@
 <!doctype html>
-
+{% load static %}
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 <script src="https://bootstraptema.ru/plugins/jquery/jquery-2.1.4.min.js"></script>
 <script src="https://bootstraptema.ru/plugins/2016/brif/brif.min.js"></script>
@@ -23,7 +23,7 @@
             </div>
             <div align="middle" class="col">
               <picture>
-                <img src="Logo.png" class="img-fluid">
+                <img src="{%static 'LogoInversed.png'%}"/>
               </picture>
             </div>
             <div id="ButnNav" align="right" class="col">
