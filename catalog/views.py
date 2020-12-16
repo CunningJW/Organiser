@@ -11,27 +11,72 @@ from django.shortcuts import render
 class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
-        fields = ('contractName','zakupkiId','dateStart','dateEnd','display_tasks')
+        fields = ('id','contractName','zakupkiId','dateStart','dateEnd','display_tasks')
 
 class TaskSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = Task ('taskName','description','taskContractName','datetimeStart','datetimeEnd','status')
+    class Meta:
+        model = Task
+        fields = ('taskName','description','taskContractName','datetimeStart','datetimeEnd','status')
 
 
-def client(request):
+def contractlink(request):
     return render(request, "tableofcontracts.html")
+
+def tasklink(request):
+    return render(request, "tableoftasks.html")
 
 class ContractView(generics.ListAPIView):
     queryset = Contract.objects.all()
     def get(self, request):
-        user(request)
+        getCurrentUser(request)
         queryset = self.get_queryset()
-        template_name = 'tableofcontracts.html'
-        serializer = ContractSerializer(queryset, many=True)
+        # template_name = 'tableofcontracts.html'
+        contracts = Contract.objects.all()#filter(user = 'getCurrentUser(request)')
+        serializer = ContractSerializer(contracts, many=True)
         return Response(serializer.data)
 
-def user(request):
+class ContractDetailView(generics.ListAPIView):
+    def get_object(self, code):
+        try:
+            return Contract.objects.get(id = code)
+        except:
+            return Response(status=404)
+    # queryset = Contract.objects.get(code = code)
+    def get(self,request,code):
+        contract = Contract.objects.get(id = code)
+        queryset = self.get_queryset()
+        serializer = ContractSerializer(contract)
+        return Response(serializer.data)
+
+class TaskView(generics.ListAPIView):
+    queryset = Task.objects.all()
+    def get(self, request):
+        getCurrentUser(request)
+        getTasks()
+        queryset = self.get_queryset()
+        # template_name = 'tableofcontracts.html'
+        tasks = Task.objects.all()#filter(user = 'getCurrentUser(request)')
+        serializer = TaskSerializer(tasks, many=True)
+        return Response(serializer.data)
+
+class TaskDetailView(generics.ListAPIView):
+    def get_object(self, code):
+        try:
+            return Task.objects.filter(taskContractName = code)
+        except:
+            return Response(status=404)
+    queryset = Task.objects.all()
+    def get(self,request,code):
+        task = Task.objects.filter(taskContractName = code)
+        queryset = self.get_queryset()
+        serializer = TaskSerializer(task, many=True)
+        return Response(serializer.data)
+
+def getCurrentUser(request):
     return request.user
+
+def getTasks():
+    print(Task.objects.all())
 # @api_view(['GET','POST'])
 # def list_contract(request):
 #     if request.method == "GET":
