@@ -15,18 +15,19 @@ class ContractSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
         class Meta:
-            model = Task ('taskName','description','contract','datetimeStart','datetimeEnd','status')
+            model = Task ('taskName','description','taskContractName','datetimeStart','datetimeEnd','status')
 
 
 def client(request):
     return render(request, "tableofcontracts.html")
 
 class ContractView(generics.ListAPIView):
+    queryset = Contract.objects.all()
     def get(self, request):
         user(request)
+        queryset = self.get_queryset()
         template_name = 'tableofcontracts.html'
-        contracts = Contract.objects.all()
-        serializer = ContractSerializer(contracts, many=True)
+        serializer = ContractSerializer(queryset, many=True)
         return Response(serializer.data)
 
 def user(request):
