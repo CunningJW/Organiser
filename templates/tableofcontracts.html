@@ -35,20 +35,6 @@
 
       <hr class="hr-xs">
 
-
-    <!-- <div class="container-fluid">
-      <div class="row align-items-center">
-        <div align="left" class="col">
-          <h1>Contracts </h1>
-        </div>
-        <div align="right" class="col">
-          <button onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">
-              LogOut
-          </button>
-        </div>
-      </div>
-    </div>
-
     <div class ='container' id = 'contractCards'></div>
 
     <style>
@@ -111,14 +97,14 @@
         content += '<div class="row justify-content-md-center">'
       }
       content += '<div class="col-md-auto">'
-      content += '<div class="card mb-4" style="width: 18rem;">'
+      content += '<div class="card mb-4" style="width: 21rem;">'
       content += '<div class="card-body">'
       content += '<h5 class="card-title">' + contract.contractName + '</h5>'
       content += '<h6 class="card-subtitle mb-2 text-muted">' + contract.zakupkiId + '</h6>'
-      content += '<p class="card-text">Date Start: ' + contract.dateStart + '</p>'
-      content += '<p class="card-text">Date End: ' + contract.dateEnd + '</p>'
-      content += '<a href="#" class="card-link">Ссылка карты</a>'
-      content += '<a href="#" class="card-link">Другая ссылка</a>'
+      content += '<h6 class="card-text ">Date Start: ' + contract.dateStart + '</h6>'
+      content += '<h6 class="card-text">Date End: ' + contract.dateEnd + '</h6>'
+      content += '<a href="#" class="card-link">Ссылка контракта</a>'
+      content += '<a href="#" class="card-link">Список участников</a>'
       content += '</div>'
       content += '</div>'
       content += '</div>'
@@ -132,6 +118,4 @@
     $("#contractCards").append(content)
   }
   </script>
-
-
 </html>
