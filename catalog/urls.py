@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 from django.conf.urls import include
 from catalog import views
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('rest_contract/',  views.ContractView.as_view()),
@@ -13,7 +13,7 @@ urlpatterns = [
     # path('', views.index, name='index'),
     # path('catalog/', include('catalog.urls'))
 ]
-
+urlpatterns += staticfiles_urlpatterns()  
 # urlpatterns = [
 #
 # ]

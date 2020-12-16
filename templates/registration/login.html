@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en" >
 
 <head>
@@ -25,19 +26,19 @@
       <div class="login-block">
         <!-- Логотип -->
         ​<picture>
-        <img src="LogoLogin.png" class="img-fluid">
+        <img src="{%static 'LogoLogin.png'%}" class="img-fluid">
         </picture>
         <!-- Логотип -->
         <h1>Введите свои данные</h1>
         <form method="post" action="{% url 'login' %}">
           {% csrf_token %}
           <div class="form-group">
-            <div class="input-group">
-              <div class = "input-group-prepend" >
+            <div class="input-group mb-3">
+              <!-- <div class = "input-group-addon" > -->
                 <span class="input-group-addon" id = "log"><i class="fa fa-user ti-user"></i></span>
-                <span class = "input-group-text" id = "log"> Логин </span>
-              </div>
-              <span class="input-group-text" aria-describedby="log" > {{ form.username }}</span>
+                <span class = "input-group-addon" id = "log"> Логин </span>
+              <!-- </div> -->
+              <span class="input-group-text" aria-describedby="log"> {{ form.username }} </span>
             </div>
           </div>
 
@@ -45,10 +46,10 @@
 
           <div class="form-group">
             <div class="input-group mb-3">
-              <div class = "input-group-prepend">
+              <!-- <div class = "input-group-addon"> -->
                 <span class="input-group-addon" id = "pass"><i class="fa fa-lock ti-unlock"></i></span>
-                <span class = "input-group-text" id = "pass"> Пароль </span>
-              </div>
+                <span class = "input-group-addon" id = "pass"> Пароль </span>
+              <!-- </div> -->
               <span class="input-group-text" aria-describedby="pass">{{ form.password }}</span>
             </div>
           </div>

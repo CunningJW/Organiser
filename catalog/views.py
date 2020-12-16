@@ -22,11 +22,12 @@ def client(request):
     return render(request, "tableofcontracts.html")
 
 class ContractView(generics.ListAPIView):
+    queryset = Contract.objects.all()
     def get(self, request):
         user(request)
+        queryset = self.get_queryset()
         template_name = 'tableofcontracts.html'
-        contracts = Contract.objects.all()
-        serializer = ContractSerializer(contracts, many=True)
+        serializer = ContractSerializer(queryset, many=True)
         return Response(serializer.data)
 
 def user(request):
