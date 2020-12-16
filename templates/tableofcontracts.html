@@ -39,6 +39,24 @@
     <div class ='container' id = 'contractCards'></div>
 
     <style>
+      .card-body
+      {
+        background:linear-gradient(to left, #1f75ff, #85b4ff);
+        /* background: #e6e6fa; */
+      }
+      .card-title, .card-text
+      {
+        color: #000061;
+      }
+      .card-subtitle
+      {
+        /* color: #000061; */
+        color: #120a8f;
+      }
+      .card-link
+      {
+        color: #f0f8ff;
+      }
       .hr-xs
       {
         margin-top:5px;
@@ -101,7 +119,7 @@
       content += '<div class="card mb-4" style="width: 18rem;">'
       content += '<div class="card-body">'
       content += '<h5 class="card-title">' + contract.contractName + '</h5>'
-      content += '<h6 class="card-subtitle mb-2 text-muted">' + contract.zakupkiId + '</h6>'
+      content += '<h6 class="card-subtitle mb-2">' + contract.zakupkiId + '</h6>'
       content += '<h6 class="card-text ">Date Start: ' + contract.dateStart + '</h6>'
       content += '<h6 class="card-text">Date End: ' + contract.dateEnd + '</h6>'
       content += '<a href="#" class="card-link">Open Contract</a>'
