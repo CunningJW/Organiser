@@ -11,13 +11,15 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    {% block title %}
     <script>
     var URL = "/catalog/rest_contract";
-
+    // var URL2 = "/catalog/rest_task";
     $(document).ready(
       function()
       {
-        $("#contracts").hide();
+        $("#table1").hide();
+        // $("#table2").hide();
       }
     )
 
@@ -25,6 +27,11 @@
     {
       $.getJSON(URL,{},showContracts);
     }
+
+    // function getTasks()
+    // {
+    //   $.getJSON(URL,{},showTasks);
+    // }
 
     function getContract()
     {
@@ -43,23 +50,37 @@
 
     function showContracts(contracts)
     {
-      $("#contractrows").html("")
+      $("#rows").html("")
       $.each(contracts, function(idx,contract)
                         {
-                            $("#contractrows").append("<tr><td>" + contract.zakupkiId + "</td><td><a href = " + contract.contractName + ".html>" + contract.contractName +  "</a></td><td>" + contract.display_tasks + " </td></tr>");
+                            $("#rows").append("<tr><td>" + contract.zakupkiId + "</td><td><a href = " + contract.contractName + ".html>" + contract.contractName +  "</a></td><td>" + contract.display_tasks + " </td></tr>");
                         }
             );
-            $("#contracts").show();
+            $("#table1").show();
     }
+
+    // function showTasks(tasks)
+    // {
+    //   $("#table2").hide();
+    //   $("#rows2").html("")
+    //   $.each(tasks, function(idx,tasks)
+    //                     {
+    //                         $("#rows2").append("<tr><td>" + task.taskName + "</td><td>" + task.contract + "</td><td>" + contract.datetimeEnd + " </td></tr>");
+    //                     }
+    //         );
+    //         $("#table2").show();
+    // }
     </script>
-    <title>Current Contracts</title>
+    <title>Current Contracts</title> {% endblock %}
   </head>
 
   <body>
     <div class="container-fluid">
       <div class="row align-items-center">
         <div align="left" class="col">
-          <h1>Contracts </h1>
+          {% block content %}
+          <h1>Contracts</h1>
+          {% endblock %}
         </div>
         <div align="right" class="col">
           <button onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">
@@ -68,28 +89,39 @@
         </div>
       </div>
     </div>
-    <button class="btn btn-primary btn-block" onclick="getContracts()">List</button>
-  	<table class="table table-striped" id = "contracts">
+    <div class="btn-group">
+       <div>
+         <button class="btn btn-primary btn-block" onclick="getContracts()">Contracts</button>
+       </div>
+        <!-- <div>
+          <button class="btn btn-primary btn-block" onclick="getTasks()">Tasks</button>
+        </div>
+        <div>
+          <button class="btn btn-primary btn-block" onclick="getContracts()">Documents</button>
+        </div> -->
+    </div>
+  	<table class="table table-striped" id = "table1">
   		<thead>
   			<tr>
   				<th scope = "col"> № </th>
   				<th scope = "col"> Contract </th>
-  				<th scope = "col"> Description </th>
+  				<th scope = "col"> Tasks </th>
   			</tr>
   		</thead>
-  		<tbody id = "contractrows">
-  			<!-- <tr>
-  				<th scope = "row"> 1 </th>
-  				<td><a href = "index1.html"> Moscow </a></td>
-  				<td> Hello Moscow </td>
-  			</tr>
-  			<tr>
-  				<th scope = "row"> 2 </th>
-  				<td><a href = "index1.html"> Ufa </a></td>
-  				<td> Hello Ufa </td>
-  			</tr> -->
+  		<tbody id = "rows">
   		</tbody>
   	</table>
+    <!-- <table class="table2 table-striped2" id = "table2">
+      <thead>
+        <tr>
+          <th scope = "col"> Name </th>
+          <th scope = "col"> Contract </th>
+          <th scope = "col"> DataTimeEnd </th>
+        </tr>
+      </thead>
+      <tbody id = "rows2">
+      </tbody>
+      </table>-->
     <style>
       .btn-block {
         width: 250px;
