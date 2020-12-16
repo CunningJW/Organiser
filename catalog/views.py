@@ -15,7 +15,7 @@ class ContractSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
         class Meta:
-            model = Task ('taskName','description','contract','datetimeStart','datetimeEnd','status')
+            model = Task ('taskName','description','taskContractName','datetimeStart','datetimeEnd','status')
 
 
 def client(request):

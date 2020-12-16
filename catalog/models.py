@@ -10,7 +10,7 @@ class Contract(models.Model):
     def __str__(self):
         return self.contractName
     def display_tasks(self):
-        selfTasks = Task.objects.filter(contract__contractName = self.contractName)
+        selfTasks = Task.objects.filter(taskContractName__contractName = self.contractName)
         return ', '.join([task.taskName for task in selfTasks])
 
     class Meta:
@@ -19,7 +19,7 @@ class Contract(models.Model):
 class Task(models.Model):
     taskName = models.CharField(max_length=200, help_text="Enter a task name")
     description = models.TextField(help_text="Enter a task description")
-    contract = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True)
+    taskContractName = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True)
     datetimeStart = models.DateTimeField()
     datetimeEnd = models.DateTimeField()
     status = models.CharField(max_length=1, help_text="Enter a task status 0 - active, 1 - completed")
