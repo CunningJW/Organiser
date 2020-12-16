@@ -1,0 +1,36 @@
+{% extends "tableofcontracts.html" %}
+
+{% block title %}
+<table class="table table-striped" id = "table">
+  <thead>
+    <tr>
+      <th scope = "col"> № </th>
+      <th scope = "col"> Contract </th>
+      <th scope = "col"> Tasks </th>
+    </tr>
+  </thead>
+  <tbody id = "rows">
+  </tbody>
+</table>
+{% endblock %}
+{% block content %}
+<script>
+  URL = "/catalog/rest_tasks/";
+$(document).ready(
+  function()
+  {
+    $.getJSON(URL,{},showTasks);
+    }
+  )
+  function showTasks(tasks)
+  {
+    $("#rows").html("")
+    $.each(tasks, function(idx,task)
+                      {
+                          $("#rows").append("<tr><td>" + task.taskName + "</td><td>" + task.taskContractName + "</td><td>" + task.datetimeEnd + " </td></tr>");
+                      }
+          );
+          $("#table").show();
+  }
+</script>
+{% endblock %}
