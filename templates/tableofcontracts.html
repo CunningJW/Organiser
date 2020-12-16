@@ -1,6 +1,5 @@
 <!doctype html>
 {% load static %}
-
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 
 <html lang="ru">
@@ -13,70 +12,76 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <title>Current Contracts</title>
-  </head>
 
-  <body>
-    <body class="table-page">
-      <body class="main-page">
-        <div class="container-fluid">
-          <div class="row align-items-center">
-            <div align="left" class="col">
-              <h2 >Contracts</h2>
-            </div>
-            <div align="middle" class="col">
-              <picture>
-                <img src="{%static 'LogoInversed.png'%}"/>
-              </picture>
-            </div>
-            <div align="right" class="col">
-              <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
-            </div>
+    <nav class="navbar " sticky-top>
+      <div class="container-fluid">
+          <div align="left" class="col">
+            <h2 >Contracts</h2>
           </div>
-        </div>
-
-      <hr class="hr-xs">
+          <div align="middle" class="col">
+            <picture>
+              <img src="{%static 'LogoInversed.png'%}"/>
+            </picture>
+          </div>
+          <div id="ButnNav" align="right" class="col">
+            <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
+          </div>
+      </div>
+    </nav>
+  </head>
 
     {% block title %}<div class ='container' id = 'contractCards'></div> {% endblock %}
 
+    <style>
+      #ButnNav
+      {
+        margin-left: auto;
+        margin-right: 1%;
+      }
+      .navbar
+      {
+        background-color:#80c8ff
 
+      }
+      .card-body
+      {
+        background:linear-gradient(to left, #85b4ff, #87CEFA);
+        /* background: #e6e6fa; */
+      }
+      .card-title, .card-text
+      {
+        color: #000061;
+      }
+      .card-subtitle
+      {
+        /* color: #000061; */
+        color: #120a8f;
+      }
+      .card-link
+      {
+        color: #f0f8ff;
+      }
+      .hr-xs
+      {
+        margin-top:5px;
+        margin-bottom:5px
+      }
+      .table-page
+      {
+        background-color:#b3deff
+      }
+      .btn-block {
+        width: 250px;
+        background: #29aafe;
+        border-color: #29aafe;
+      }
+      .border-info{
+        margin-top: 5%;
+      }
+    </style>
   </body>
 
   <!-- ====================================================== -->
-  <style>
-    .card-body
-    {
-      background:linear-gradient(to left, #85b4ff, #87CEFA);
-      /* background: #e6e6fa; */
-    }
-    .card-title, .card-text
-    {
-      color: #000061;
-    }
-    .card-subtitle
-    {
-      /* color: #000061; */
-      color: #120a8f;
-    }
-    .card-link
-    {
-      color: #f0f8ff;
-    }
-    .hr-xs
-    {
-      margin-top:5px;
-      margin-bottom:5px
-    }
-    .table-page
-    {
-      background-color:#b3deff
-    }
-    .btn-block {
-      width: 250px;
-      background: #29aafe;
-      border-color: #29aafe;
-    }
-  </style>
-
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
   {%block content%}
@@ -119,16 +124,16 @@
         content += '<div class="row justify-content-md-center">'
       }
       content += '<div class="col-md-auto">'
-      content +=  '<div class="card mb-4" style="width: 18rem;">'
-      content +=    '<div class="card-body">'
-      content +=     '<h5 class="card-title">' + contract.contractName + '</h5>'
-      content +=     '<h6 class="card-subtitle mb-2">' + contract.zakupkiId + '</h6>'
-      content +=     '<h6 class="card-text ">Date Start: ' + contract.dateStart + '</h6>'
-      content +=     '<h6 class="card-text">Date End: ' + contract.dateEnd + '</h6>'
-      content +=     '<a href="#" class="card-link">Open Contract</a>'
-      content +=     '<a href="#" class="card-link">User List</a>'
-      content +=    '</div>'
-      content +=  '</div>'
+      content += '<div class="card border-info mb-3" style="width: 18rem;">'
+      content += '<div class="card-body">'
+      content += '<h5 class="card-title">' + contract.contractName + '</h5>'
+      content += '<h6 class="card-subtitle mb-2">' + contract.zakupkiId + '</h6>'
+      content += '<h6 class="card-text ">Date Start: ' + contract.dateStart + '</h6>'
+      content += '<h6 class="card-text">Date End: ' + contract.dateEnd + '</h6>'
+      content += '<a href="#" class="card-link">Open Contract</a>'
+      content += '<a href="#" class="card-link">User List</a>'
+      content += '</div>'
+      content += '</div>'
       content += '</div>'
 
       count+=1
