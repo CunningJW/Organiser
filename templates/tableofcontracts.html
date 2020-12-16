@@ -1,4 +1,5 @@
 <!doctype html>
+{% load static %}
 
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 
@@ -24,7 +25,7 @@
             </div>
             <div align="middle" class="col">
               <picture>
-                <img src="Logo.png" class="img-fluid">
+                <img src="{%static 'LogoInversed.png'%}"/>
               </picture>
             </div>
             <div align="right" class="col">
@@ -37,25 +38,45 @@
 
     <div class ='container' id = 'contractCards'></div>
 
-    <style>
-      .hr-xs
-      {
-        margin-top:5px;
-        margin-bottom:5px
-      }
-      .table-page
-      {
-        background-color:#b3deff
-      }
-      .btn-block {
-        width: 250px;
-        background: #29aafe;
-        border-color: #29aafe;
-      }
-    </style>
+
   </body>
 
   <!-- ====================================================== -->
+  <style>
+    .card-body
+    {
+      background:linear-gradient(to left, #85b4ff, #87CEFA);
+      /* background: #e6e6fa; */
+    }
+    .card-title, .card-text
+    {
+      color: #000061;
+    }
+    .card-subtitle
+    {
+      /* color: #000061; */
+      color: #120a8f;
+    }
+    .card-link
+    {
+      color: #f0f8ff;
+    }
+    .hr-xs
+    {
+      margin-top:5px;
+      margin-bottom:5px
+    }
+    .table-page
+    {
+      background-color:#b3deff
+    }
+    .btn-block {
+      width: 250px;
+      background: #29aafe;
+      border-color: #29aafe;
+    }
+  </style>
+
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
   <script>
@@ -97,16 +118,16 @@
         content += '<div class="row justify-content-md-center">'
       }
       content += '<div class="col-md-auto">'
-      content += '<div class="card mb-4" style="width: 21rem;">'
-      content += '<div class="card-body">'
-      content += '<h5 class="card-title">' + contract.contractName + '</h5>'
-      content += '<h6 class="card-subtitle mb-2 text-muted">' + contract.zakupkiId + '</h6>'
-      content += '<h6 class="card-text ">Date Start: ' + contract.dateStart + '</h6>'
-      content += '<h6 class="card-text">Date End: ' + contract.dateEnd + '</h6>'
-      content += '<a href="#" class="card-link">Ссылка контракта</a>'
-      content += '<a href="#" class="card-link">Список участников</a>'
-      content += '</div>'
-      content += '</div>'
+      content +=  '<div class="card mb-4" style="width: 18rem;">'
+      content +=    '<div class="card-body">'
+      content +=     '<h5 class="card-title">' + contract.contractName + '</h5>'
+      content +=     '<h6 class="card-subtitle mb-2">' + contract.zakupkiId + '</h6>'
+      content +=     '<h6 class="card-text ">Date Start: ' + contract.dateStart + '</h6>'
+      content +=     '<h6 class="card-text">Date End: ' + contract.dateEnd + '</h6>'
+      content +=     '<a href="#" class="card-link">Open Contract</a>'
+      content +=     '<a href="#" class="card-link">User List</a>'
+      content +=    '</div>'
+      content +=  '</div>'
       content += '</div>'
 
       count+=1
