@@ -22,8 +22,14 @@ class TaskSerializer(serializers.ModelSerializer):
 def contractlink(request):
     return render(request, "tableofcontracts.html")
 
+def contractDetailLink(request):
+    return render(request, "contractTemplate.html",context={'contract':contract_id,})
+
+
 def tasklink(request):
     return render(request, "tableoftasks.html")
+
+
 
 class ContractView(generics.ListAPIView):
     queryset = Contract.objects.all()
@@ -35,13 +41,13 @@ class ContractView(generics.ListAPIView):
         serializer = ContractSerializer(contracts, many=True)
         return Response(serializer.data)
 
-class ContractDetailView(generics.ListAPIView):
+class ContractDetailView(generics.RetrieveAPIView):
     def get_object(self, code):
         try:
             return Contract.objects.get(id = code)
         except:
             return Response(status=404)
-    # queryset = Contract.objects.get(code = code)
+    queryset = Contract.objects.all() #get(code = code)
     def get(self,request,code):
         contract = Contract.objects.get(id = code)
         queryset = self.get_queryset()

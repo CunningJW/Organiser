@@ -87,19 +87,19 @@
 
   {%block content%}
   <script>
-  var URL = "/catalog/rest_contract/";
+  var contractListURL = "/catalog/rest_contract/";
 
   $(document).ready(
     function()
     {
-    $.getJSON(URL,{},showContracts);
+    $.getJSON(contractListURL,{},showContracts);
       // $("#table2").hide();
     }
   )
 
   function getContract()
   {
-    $.getJSON(URL + $("#contract_name").val)
+    $.getJSON(contractListURL + $("#contract_name").val)
       .done(showContract)
       .fail(function()
             {

@@ -13,6 +13,9 @@ class Contract(models.Model):
         selfTasks = Task.objects.filter(taskContractName__contractName = self.contractName)
         return ', '.join([task.taskName for task in selfTasks])
 
+
+
+
     class Meta:
         db_table = "Contract"
 
