@@ -7,6 +7,7 @@ from django.shortcuts import render
 
 
 # Create your views here.
+########################################################################
 
 class ContractSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,6 +19,12 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = ('taskName','description','taskContractName','datetimeStart','datetimeEnd','status')
 
+class DocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ('documentName','description','file','contract')
+
+#######################################################################
 
 def contractlink(request):
     return render(request, "tableofcontracts.html")
@@ -29,11 +36,10 @@ def contractDetailLink(request,pk):
         raise Http404("Contract does not exist")
     return render(request, "contractTemplate.html",context = {'contractid':contract_id})
 
-
 def tasklink(request):
     return render(request, "tableoftasks.html")
 
-
+#######################################################################
 
 class ContractView(generics.ListAPIView):
     queryset = Contract.objects.all()
@@ -81,6 +87,18 @@ class TaskDetailView(generics.ListAPIView):
         queryset = self.get_queryset()
         serializer = TaskSerializer(task, many=True)
         return Response(serializer.data)
+
+class DocumentsView(generics.ListAPIView):
+    queryset = Document.objects.filter(contract =  )
+    def get(self, request):
+        getCurrentUser(request)
+        queryset = self.get_queryset()
+        # template_name = 'tableofcontracts.html'
+        # documents = Document.objects.all()
+        serializer = ContractSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+#######################################################################
 
 def getCurrentUser(request):
     return request.user
