@@ -16,7 +16,18 @@
     <nav class="navbar " sticky-top>
       <div class="container-fluid">
           <div align="left" class="col">
-            <h2 >Contracts</h2>
+
+            {% block title %}<h2>Contracts</h2>{% endblock %}
+            </div>
+            <div align="middle" class="col">
+              <picture>
+                <img src="{%static 'LogoInversed.png'%}"/>
+              </picture>
+            </div>
+            <div align="right" class="col">
+              <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
+              {% block page %}<button  onclick="location.href='/catalog/all_tasks'" class="btn btn-primary btn-block" type="submit">Tasks</button>{% endblock %}
+            </div>
           </div>
           <div align="middle" class="col">
             <picture>
@@ -30,8 +41,10 @@
     </nav>
   </head>
 
-  <body class = 'table-page'>
-    {% block title %}<div class ='container' id = 'contractCards'></div> {% endblock %}
+
+
+
+    <body>{% block footer %}<div class ='container' id = 'contractCards'></div> {% endblock %}
 
     <style>
       #ButnNav

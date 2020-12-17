@@ -25,6 +25,7 @@
           </div>
           <div id="ButnNav" align="right" class="col">
             <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
+            <button  onclick="location.href='/catalog/all_tasks'" class="btn btn-primary btn-block" type="submit">Tasks</button>
           </div>
       </div>
     </nav>
@@ -34,38 +35,42 @@
     <div id="forma"  align="middle" class ='container-fluid' id = 'tasksPlus'>
   <form >
     <div class="form-col">
-  <div class="form-group  col-sm-2">
+  <div class="form-group  col-sm-4">
     <label for="exampleFormControlInput1">Add a new task:</label>
-    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enther task name">
+    <input type="text" class="form-control" id="Name" placeholder="Enther task name">
   </div>
-  <div class="form-group col-sm-2">
+  <div class="form-group col-sm-4">
     <label for="exampleFormControlSelect1">Whom to send</label>
-    <select class="form-control" id="exampleFormControlSelect2">
-      <option>Chel_1</option>
-      <option>Chel_2</option>
-      <option>Chel_3</option>
-      <option>Chel_4</option>
-      <option>Chel_5</option>
+    <select class="form-control" id="Users">
     </select>
   </div>
-  <div class="form-group col-sm-2">
+  <div class="form-group col-sm-4">
     <label for="exampleFormControlSelect1">Select contract</label>
-    <select class="form-control" id="exampleFormControlSelect3">
-      <option>Mosc1</option>
-      <option>Mosc2</option>
-      <option>Mosc3</option>
-      <option>Mosc4</option>
-      <option>Mosc5</option>
+    <select class="form-control" id= 'Contracts'>
     </select>
   </div>
-  <div class="form-group col-sm-2">
+  <div class="form-group col-sm-4">
     <label for="exampleFormControlTextarea1">Task description</label>
-    <textarea class="form-control" id="exampleFormControlTextarea4" rows="3"></textarea>
+    <textarea class="form-control" id="Description" rows="3"></textarea>
   </div>
-  <div class="form-group col-sm-2">
+  <div class="form-group  col-sm-4">
+    <label for="exampleFormControlInput1">Add a datetime start:</label>
+    <input type="datetime-local" class="form-control" id="DateTimeStart" placeholder="Enther task name">
+  </div>
+  <div class="form-group  col-sm-4">
+    <label for="exampleFormControlInput1">Add a datetime end:</label>
+    <input type="datetime-local" class="form-control" id="DateTimeEnd" placeholder="Enther task name">
+  </div>
+  <div class="form-group  col-sm-4">
+    <label for="exampleFormControlInput1">Add task status:</label>
+    <input type = "number" min="0" max="1" class="form-control" id="Status" placeholder="Enther task status (0,1)">
+  </div>
+
+  <button onclick = "addTask()" id = "b" class="btn btn-primary btn-block" type="submit"> Send </button>
+  <!-- <div class="form-group col-sm-4">
     <label for="exampleFormControlFile1">Attach file</label>
     <input type="file" class="form-control-file" id="exampleFormControlFile5">
-  </div>
+  </div> -->
   </div>
 </form>
 </div>
@@ -99,5 +104,122 @@
     </style>
   </body>
 
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+{% csrf_token %}
+<script type="text/javascript">
+// using jQuery
+var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+</script>
+<script>
+
+// using jQuery
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+var URL = "/catalog/rest_contract/";
+var URL2 = "/catalog/rest_user/";
+var URL3 = "/catalog/rest_tasks/"
+
+$(document).ready(
+  function()
+  {
+  $.getJSON(URL,{},showContracts);
+  $.getJSON(URL2,{},showUsers);
+  }
+
+)
+
+  function showContracts(contracts)
+  {
+    var content = '';
+    $.each(contracts, function(idx,contract)
+    {
+      content += '<option value = ' + contract.id + '>' + contract.contractName + '</option>';
+    });
+    $("#Contracts").append(content)
+  }
+
+  function showUsers(users)
+  {
+    var content = '';
+    $.each(users, function(idx,user)
+    {
+      content += '<option value = ' + user.id + '>' + user.username + '</option>'
+    });
+    $("#Users").append(content)
+  }
+
+//   $('#b').click(function(){
+//   alert($('#Description').val())
+// }
+// )
+var csrftoken = getCookie('csrftoken');
+function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+function addTask()
+    {
+       $.ajax(
+          { url: URL3,
+             data: {
+                       taskName : $("#Name").val(),
+                       followers : $("#Users").val(),
+                       description : $("#Description").val(),
+                       taskContractName : $("#Contracts").val(),
+                       datetimeStart : $("#DateTimeStart").val(),
+                       datetimeEnd : $("#DateTimeEnd").val(),
+                       status : $("#Status").val(),
+                     },
+
+             type : "POST",
+             success : add_success,
+             error : add_error
+          }
+      )
+    }
+
+    function add_success()
+  {
+    alert("Added course Successfully");
+  }
+
+  function add_error()
+  {
+    alert("Could not add course!");
+  }
+</script>
 
 </html>

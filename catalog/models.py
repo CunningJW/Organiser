@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Contract(models.Model):
@@ -11,6 +12,7 @@ class Contract(models.Model):
 
     def __str__(self):
         return self.contractName
+
     def display_tasks(self):
         selfTasks = Task.objects.filter(taskContractName__contractName = self.contractName)
         return ', '.join([task.taskName for task in selfTasks])
@@ -25,6 +27,7 @@ class Contract(models.Model):
 
 class Task(models.Model):
     taskName = models.CharField(max_length=200, help_text="Enter a task name")
+    followers = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     description = models.TextField(help_text="Enter a task description")
     taskContractName = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True)
     datetimeStart = models.DateTimeField()
