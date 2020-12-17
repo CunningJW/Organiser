@@ -11,7 +11,7 @@ from django.shortcuts import render
 class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
-        fields = ('id','contractName','zakupkiId','dateStart','dateEnd','display_tasks','getLink')
+        fields = ('id','contractName','zakupkiId','dateStart','dateEnd','display_tasks','getLink','linkToZakupkigov')
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
