@@ -12,6 +12,7 @@ urlpatterns = [
     # re_path('rest_contract/(?P<contractName>\w+)/$', views.contract_details),
     path('all_contracts/', views.contractlink),
     path('all_tasks/', views.tasklink),
+    re_path('all_contracts/(?P<pk>\w+)/$', views.contractDetailLink, name = 'contractDetail'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.main, name='main'),
     # path('', views.index, name='index'),

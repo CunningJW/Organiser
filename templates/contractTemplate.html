@@ -1,5 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
 {% load static %}
+
+
+
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 <script src="https://bootstraptema.ru/plugins/jquery/jquery-2.1.4.min.js"></script>
 <script src="https://bootstraptema.ru/plugins/2016/brif/brif.min.js"></script>
@@ -32,16 +36,20 @@
         </div>
       </nav>
 
+      {%block content%}
 
         <div class="container-fluid">
           <div class="row">
             <div align="left" class="col">
               <div id="infoContr" class="card border-info mb-3" style="width: 18rem; ">
                 <div class="card-body">
-                  <h5 class="card-title">contract.contractName </h5>
-                  <p class="card-text">contract.zakupkiId</p>
+                  <h5 class="card-title">{{contractid.contractName}} </h5>
+                  <a class="card-subtitle" href='{{contractid.linkToZakupkigov}}'>№: {{contractid.zakupkiId}}</a>
+                  <p></p>
+                  <p class="card-text">Date of start: {{contractid.dateStart}}</p>
+                  <p class="card-text">Date of end:   {{contractid.dateEnd}}</p>
                   <div class="text-right">
-                    <a type="button" href="#" class="btn btn-secondary btn-sm">Переход в профиль</a>
+                    <a type="button" href="/catalog/all_contracts" class="btn btn-secondary btn-sm">Back</a>
                   </div>
                 </div>
               </div>
@@ -50,7 +58,7 @@
           <div align="right" class="col">
             <div id="DocsContr" class="card border-dark mb-3" style="width: 35rem;">
               <div class="card-body">
-                <h5 class="card-title">доки </h5>
+                <h5 class="card-title">Documents</h5>
                 <p class="card-text">клуб доки доки</p>
                 <p class="card-text">другой доки доки</p>
                 <p class="card-text">клуб доки доки</p>
@@ -77,6 +85,7 @@
     </div>
   </div>
     <style>
+
       #ButnNav
       {
         margin-left: auto;
@@ -103,10 +112,7 @@
         margin-left: 2%;
         background: #0f93ff;
       }
-      .card-title, .card-text
-      {
-        color: #000061;
-      }
+
       .card-subtitle
       {
         /* color: #000061; */
@@ -115,11 +121,6 @@
       .card-link
       {
         color: #f0f8ff;
-      }
-      .hr-xs
-      {
-        margin-top:5px;
-        margin-bottom:5px
       }
       .contract-page
       {
@@ -130,10 +131,24 @@
         background: #29aafe;
         border-color: #29aafe;
       }
+      .card-body
+      {
+        background:linear-gradient(to left, #85b4ff, #87CEFA);
+        /* background: #e6e6fa; */
+      }
     </style>
   </body>
 
   <!-- ====================================================== -->
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
+  <script>
+  $(document).ready(
+    function()
+    {
+    }
+  )
+  </script>
+
+  {%endblock%}
 </html>
