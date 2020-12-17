@@ -14,9 +14,14 @@ class ContractSerializer(serializers.ModelSerializer):
         model = Contract
         fields = ('id','contractName','zakupkiId','dateStart','dateEnd','display_tasks','getLink','linkToZakupkigov')
 
-class TaskSerializer(serializers.ModelSerializer):
+class TaskGetSerializer(serializers.ModelSerializer):
     taskContractName = serializers.StringRelatedField()
     followers = serializers.StringRelatedField()
+    class Meta:
+        model = Task
+        fields = ('taskName','followers','description','taskContractName','datetimeStart','datetimeEnd','status')
+
+class TaskPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ('taskName','followers','description','taskContractName','datetimeStart','datetimeEnd','status')
@@ -84,17 +89,17 @@ class ContractDetailView(generics.RetrieveAPIView):
 
 class TaskView(generics.ListAPIView):
     queryset = Task.objects.all()
-    serializer_class = TaskSerializer
+    serializer_class = TaskGetSerializer
     def get(self, request):
         getCurrentUser(request)
         # getTasks()
         queryset = self.get_queryset()
         # template_name = 'tableofcontracts.html'
         tasks = Task.objects.all().order_by('taskContractName')#filter(user = 'getCurrentUser(request)')
-        serializer = TaskSerializer(tasks, many=True)
+        serializer = TaskGetSerializer(tasks, many=True)
         return Response(serializer.data)
     def post(self, request):
-        serializer = TaskSerializer(data=request.data)
+        serializer = TaskPostSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
