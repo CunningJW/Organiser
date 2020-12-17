@@ -160,7 +160,7 @@ $(document).ready(
     var content = '';
     $.each(contracts, function(idx,contract)
     {
-      content += '<option value = ' + '>' + contract.contractName + '</option>';
+      content += '<option value = ' + contract.id + '>' + contract.contractName + '</option>';
     });
     $("#Contracts").append(content)
   }
@@ -170,7 +170,7 @@ $(document).ready(
     var content = '';
     $.each(users, function(idx,user)
     {
-      content += '<option value =' + '>' + user.username + '</option>'
+      content += '<option value =' + user.id + '>' + user.username + '</option>'
     });
     $("#Users").append(content)
   }
