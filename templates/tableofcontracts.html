@@ -26,7 +26,10 @@
             </div>
             <div align="right" class="col">
               <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
-              {% block page %}<button  onclick="location.href='/catalog/all_tasks'" class="btn btn-primary btn-block" type="submit">Tasks</button>{% endblock %}
+              {% block page %}
+              <button  onclick="location.href='/catalog/all_tasks'" class="btn btn-primary btn-block" type="submit">Tasks</button>
+
+                {% endblock %}
             </div>
       </div>
     </nav>

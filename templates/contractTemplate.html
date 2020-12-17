@@ -74,12 +74,13 @@
     <div id="TasksContr" class="row align-items-center">
         <div align="right" class="col">
       <div  class="card border-dark mb-3" style="width: 40rem; background: #00bfff;">
+
         <div class="card-body">
           <h5 class="card-title">задачи пользователей в проекте </h5>
-          <p class="card-text">задача1</p>
-          <p class="card-text">задача2</p>
-          <p class="card-text">задача3</p>
-          <p class="card-text">задача4</p>
+        {%for task in tasks %}
+          <p class="card-text">{{task.taskName}}  ->   {{task.followers}}</p>
+        {%endfor%}
+
         </div>
       </div>
     </div>

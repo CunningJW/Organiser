@@ -4,8 +4,10 @@
 <h2> Tasks </h2>
 {% endblock %}
 
-{% block page %}<button  onclick="location.href='/catalog/task_add'" class="btn btn-primary btn-block" type="submit">Add Task</button>{% endblock %}
-
+{% block page %}
+<button  onclick="location.href='/catalog/task_add'" class="btn btn-primary btn-block" type="submit">Add Task</button>
+<button  onclick="location.href='/catalog/all_contracts'" class="btn btn-primary btn-block" type="submit">Contracts</button>
+{% endblock %}
 {% block footer %}
 <table class="table table-striped" id = "table">
   <thead>
