@@ -11,7 +11,7 @@ from django.shortcuts import render
 class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
-        fields = ('id','contractName','zakupkiId','dateStart','dateEnd','display_tasks')
+        fields = ('id','contractName','zakupkiId','dateStart','dateEnd','display_tasks','getLink')
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,8 +22,12 @@ class TaskSerializer(serializers.ModelSerializer):
 def contractlink(request):
     return render(request, "tableofcontracts.html")
 
-def contractDetailLink(request):
-    return render(request, "contractTemplate.html",context={'contract':contract_id,})
+def contractDetailLink(request,pk):
+    try:
+        contract_id=Contract.objects.get(pk=pk)
+    except Contract.DoesNotExist:
+        raise Http404("Contract does not exist")
+    return render(request, "contractTemplate.html",context = {'contractid':contract_id})
 
 
 def tasklink(request):
@@ -83,6 +87,9 @@ def getCurrentUser(request):
 
 def getTasks():
     print(Task.objects.all())
+
+
+
 # @api_view(['GET','POST'])
 # def list_contract(request):
 #     if request.method == "GET":

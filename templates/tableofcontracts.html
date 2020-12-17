@@ -131,7 +131,7 @@
       content += '<h6 class="card-subtitle mb-2">' + contract.zakupkiId + '</h6>'
       content += '<h6 class="card-text ">Date Start: ' + contract.dateStart + '</h6>'
       content += '<h6 class="card-text">Date End: ' + contract.dateEnd + '</h6>'
-      content += '<a href="#" class="card-link">Open Contract</a>'
+      content += '<a href=' + contract.getLink + ' class="card-link">Open Contract</a>'
       content += '<a href="#" class="card-link">User List</a>'
       content += '</div>'
       content += '</div>'

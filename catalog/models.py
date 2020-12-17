@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Contract(models.Model):
@@ -6,12 +7,15 @@ class Contract(models.Model):
     zakupkiId = models.CharField(max_length=50, help_text="Enter an id from zakupki.gov.ru")
     dateStart = models.DateField()
     dateEnd = models.DateField()
+    linkToZakupkigov = models.TextField(help_text="Enter an link to zakupki.gov.ru", default="https://zakupki.gov.ru/epz/main/public/home.html")
 
     def __str__(self):
         return self.contractName
     def display_tasks(self):
         selfTasks = Task.objects.filter(taskContractName__contractName = self.contractName)
         return ', '.join([task.taskName for task in selfTasks])
+    def getLink(self):
+        return reverse('contractDetail', args=[str(self.id)])
 
 
 

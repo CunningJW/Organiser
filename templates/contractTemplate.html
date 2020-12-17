@@ -1,5 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
 {% load static %}
+
+
+
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 <script src="https://bootstraptema.ru/plugins/jquery/jquery-2.1.4.min.js"></script>
 <script src="https://bootstraptema.ru/plugins/2016/brif/brif.min.js"></script>
@@ -32,14 +36,15 @@
         </div>
       </nav>
 
+      {%block content%}
 
         <div class="container-fluid">
           <div class="row">
             <div align="left" class="col">
               <div id="infoContr" class="card border-info mb-3" style="width: 18rem; ">
                 <div class="card-body">
-                  <h5 class="card-title">contract.contractName </h5>
-                  <p class="card-text">contract.zakupkiId</p>
+                  <h5 class="card-title">{{contractid.contractName}} </h5>
+                  <p class="card-text">{{contractid.zakupkiId}}</p>
                   <div class="text-right">
                     <a type="button" href="#" class="btn btn-secondary btn-sm">Переход в профиль</a>
                   </div>
@@ -136,4 +141,13 @@
   <!-- ====================================================== -->
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
+  <script>
+  $(document).ready(
+    function()
+    {
+    }
+  )
+  </script>
+
+  {%endblock%}
 </html>
