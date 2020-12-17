@@ -8,7 +8,7 @@ class ContractAdmin (admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin (admin.ModelAdmin):
-    list_display = ('taskName','description','taskContractName','datetimeStart','datetimeEnd','status')
+    list_display = ('taskName','followers','description','taskContractName','datetimeStart','datetimeEnd','status')
 
 @admin.register(Document)
 class DocumentAdmin (admin.ModelAdmin):
