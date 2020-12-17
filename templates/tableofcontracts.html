@@ -28,15 +28,6 @@
               <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
               {% block page %}<button  onclick="location.href='/catalog/all_tasks'" class="btn btn-primary btn-block" type="submit">Tasks</button>{% endblock %}
             </div>
-          </div>
-          <div align="middle" class="col">
-            <picture>
-              <img src="{%static 'LogoInversed.png'%}"/>
-            </picture>
-          </div>
-          <div id="ButnNav" align="right" class="col">
-            <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
-          </div>
       </div>
     </nav>
   </head>

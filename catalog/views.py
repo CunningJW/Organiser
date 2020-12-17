@@ -113,15 +113,15 @@ class TaskDetailView(generics.ListAPIView):
         serializer = TaskSerializer(task, many=True)
         return Response(serializer.data)
 
-class DocumentsView(generics.ListAPIView):
-    queryset = Document.objects.filter(contract =  )
-    def get(self, request):
-        getCurrentUser(request)
-        queryset = self.get_queryset()
-        # template_name = 'tableofcontracts.html'
-        # documents = Document.objects.all()
-        serializer = ContractSerializer(queryset, many=True)
-        return Response(serializer.data)
+# class DocumentsView(generics.ListAPIView):
+#     queryset = Document.objects.filter(contract =  )
+#     def get(self, request):
+#         getCurrentUser(request)
+#         queryset = self.get_queryset()
+#         # template_name = 'tableofcontracts.html'
+#         # documents = Document.objects.all()
+#         serializer = ContractSerializer(queryset, many=True)
+#         return Response(serializer.data)
 
 #######################################################################
 
