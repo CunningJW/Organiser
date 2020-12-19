@@ -1,43 +1,86 @@
-<!doctype html>
-{% load static %}
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+{% extends "main.html" %}
 
-<html lang="ru">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{%block navitems%}
+<li class="nav-item active">
+  <a class="nav-link" href={% url 'allContracts' %}>Contracts</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href={% url 'allTasks' %}>Your Tasks</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href={% url 'addTask' %}>New Task</a>
+</li>
+{%endblock%}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  {%block content%}
+  <div class='container' id='contractCards'></div>
 
-    <title>Current Contracts</title>
+  <script>
+    var contractListURL = "/catalog/rest_contract/";
+    $(document).ready(
+      function() {
+        $.getJSON(contractListURL, {}, showContracts);
+      }
+    )
 
-    <nav class="navbar " sticky-top>
-      <div class="container-fluid">
-          <div align="left" class="col">
+    function showContracts(contracts) {
+      $("#rows").html("")
+      var count = 0
+      var content = '';
+      $.each(contracts, function(idx, contract) {
+        if (count == 0) {
+          content += '<div class="row justify-content-md-center">'
+        }
+        content += '<div class="col-md-auto">'
+        content += '<div class="card border-info mb-3" style="width: 18rem;">'
+        content += '<div class="card-body">'
+        content += '<h5 class="card-title">' + contract.contractName + '</h5>'
+        content += '<h6 class="card-subtitle mb-2">' + contract.zakupkiId + '</h6>'
+        content += '<h6 class="card-text ">Date Start: ' + contract.dateStart + '</h6>'
+        content += '<h6 class="card-text">Date End: ' + contract.dateEnd + '</h6>'
+        content += '<a href=' + contract.getLink + ' class="card-link">Open Contract</a>'
+        content += '<a href="#" class="card-link">User List</a>'
+        content += '</div>'
+        content += '</div>'
+        content += '</div>'
 
-            {% block title %}<h2>Contracts</h2>{% endblock %}
-            </div>
-            <div align="middle" class="col">
-              <picture>
-                <img src="{%static 'LogoInversed.png'%}"/>
-              </picture>
-            </div>
-            <div align="right" class="col">
-              <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
-              {% block page %}<button  onclick="location.href='/catalog/all_tasks'" class="btn btn-primary btn-block" type="submit">Tasks</button>{% endblock %}
-            </div>
-      </div>
-    </nav>
-  </head>
+        count += 1
+        if (count == 3) {
+          content += '</div>'
+          count = 0
+        }
+      });
+      $("#contractCards").append(content)
+    }
+  </script>
 
+  <style>
+    #contractCards{
+      padding-top: 10px;
+    }
+    .card-body {
+      background: linear-gradient(to left, #85b4ff, #87CEFA);
+      /* background: #e6e6fa; */
+    }
 
+    .card-title,
+    .card-text {
+      color: #000061;
+    }
 
+    .card-subtitle {
+      /* color: #000061; */
+      color: #120a8f;
+    }
 
-    <body>{% block footer %}<div class ='container' id = 'contractCards'></div> {% endblock %}
+    .card-link {
+      color: #f0f8ff;
+    }
+  </style>
 
-    <style>
+  {% endblock %}
+
+<!-- <style>
       #ButnNav
       {
         margin-left: auto;
@@ -83,72 +126,4 @@
       .border-info{
         margin-top: 5%;
       }
-    </style>
-  </body>
-
-  <!-- ====================================================== -->
-  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-
-  {%block content%}
-  <script>
-  var contractListURL = "/catalog/rest_contract/";
-
-  $(document).ready(
-    function()
-    {
-    $.getJSON(contractListURL,{},showContracts);
-      // $("#table2").hide();
-    }
-  )
-
-  function getContract()
-  {
-    $.getJSON(contractListURL + $("#contract_name").val)
-      .done(showContract)
-      .fail(function()
-            {
-                alert("Contract Not Found!");
-            })
-  }
-
-  function showContract(contract)
-  {
-    $("#contract_name").val(contract.contractName)
-  }
-
-
-
-  function showContracts(contracts)
-  {
-    $("#rows").html("")
-    var count = 0
-    var content = '';
-    $.each(contracts, function(idx,contract)
-    {
-      if (count == 0){
-        content += '<div class="row justify-content-md-center">'
-      }
-      content += '<div class="col-md-auto">'
-      content += '<div class="card border-info mb-3" style="width: 18rem;">'
-      content += '<div class="card-body">'
-      content += '<h5 class="card-title">' + contract.contractName + '</h5>'
-      content += '<h6 class="card-subtitle mb-2">' + contract.zakupkiId + '</h6>'
-      content += '<h6 class="card-text ">Date Start: ' + contract.dateStart + '</h6>'
-      content += '<h6 class="card-text">Date End: ' + contract.dateEnd + '</h6>'
-      content += '<a href=' + contract.getLink + ' class="card-link">Open Contract</a>'
-      content += '<a href="#" class="card-link">User List</a>'
-      content += '</div>'
-      content += '</div>'
-      content += '</div>'
-
-      count+=1
-      if (count == 3){
-        content += '</div>'
-        count = 0
-      }
-    });
-    $("#contractCards").append(content)
-  }
-  </script>
-  {%endblock%}
-</html>
+    </style> -->

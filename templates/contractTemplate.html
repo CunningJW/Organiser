@@ -1,154 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
-{% load static %}
+{% extends "main.html" %}
 
 
+{%block content%}
 
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
-<script src="https://bootstraptema.ru/plugins/jquery/jquery-2.1.4.min.js"></script>
-<script src="https://bootstraptema.ru/plugins/2016/brif/brif.min.js"></script>
-<html lang="ru">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
-    <title>Current Contracts</title>
-  </head>
-
-  <body class="contract-page">
-      <nav class="navbar " sticky-top>
-        <div class="container-fluid">
-            <div align="left" class="col">
-              <h2 >Contract</h2>
-            </div>
-            <div align="middle" class="col">
-              <picture>
-                <img src="{%static 'LogoInversed.png'%}"/>
-              </picture>
-            </div>
-            <div id="ButnNav" align="right" class="col">
-              <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
-            </div>
-        </div>
-      </nav>
-
-      {%block content%}
-
-        <div class="container-fluid">
-          <div class="row">
-            <div align="left" class="col">
-              <div id="infoContr" class="card border-info mb-3" style="width: 18rem; ">
-                <div class="card-body">
-                  <h5 class="card-title">{{contractid.contractName}} </h5>
-                  <a class="card-subtitle" href='{{contractid.linkToZakupkigov}}'>№: {{contractid.zakupkiId}}</a>
-                  <p></p>
-                  <p class="card-text">Date of start: {{contractid.dateStart}}</p>
-                  <p class="card-text">Date of end:   {{contractid.dateEnd}}</p>
-                  <div class="text-right">
-                    <a type="button" href="/catalog/all_contracts" class="btn btn-secondary btn-sm">Back</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          <div align="right" class="col">
-            <div id="DocsContr" class="card border-dark mb-3" style="width: 35rem;">
-              <div class="card-body">
-                <h5 class="card-title">Documents</h5>
-                <p class="card-text">клуб доки доки</p>
-                <p class="card-text">другой доки доки</p>
-                <p class="card-text">клуб доки доки</p>
-                <p class="card-text">другой доки доки</p>
-              </div>
-            </div>
+<div class="container-fluid">
+  <div class="row">
+    <div align="left" class="col">
+      <div id="infoContr" class="card border-info mb-3" style="width: 18rem; ">
+        <div class="card-body">
+          <h5 class="card-title">{{contractid.contractName}} </h5>
+          <a class="card-subtitle" href='{{contractid.linkToZakupkigov}}'>№: {{contractid.zakupkiId}}</a>
+          <p></p>
+          <p class="card-text">Date of start: {{contractid.dateStart}}</p>
+          <p class="card-text">Date of end: {{contractid.dateEnd}}</p>
+          <div class="text-right">
+            <a type="button" href="/catalog/all_contracts" class="btn btn-secondary btn-sm">Back</a>
           </div>
         </div>
       </div>
+    </div>
 
-
-
-    <div id="TasksContr" class="row align-items-center">
-        <div align="right" class="col">
-      <div  class="card border-dark mb-3" style="width: 40rem; background: #00bfff;">
+    <div align="right" class="col">
+      <div id="DocsContr" class="card border-dark mb-3" style="width: 35rem;">
         <div class="card-body">
-          <h5 class="card-title">задачи пользователей в проекте </h5>
-          <p class="card-text">задача1</p>
-          <p class="card-text">задача2</p>
-          <p class="card-text">задача3</p>
-          <p class="card-text">задача4</p>
+          <h5 class="card-title">Documents</h5>
+          <p class="card-text">клуб доки доки</p>
+          <p class="card-text">другой доки доки</p>
+          <p class="card-text">клуб доки доки</p>
+          <p class="card-text">другой доки доки</p>
         </div>
       </div>
     </div>
   </div>
-    <style>
+</div>
 
-      #ButnNav
-      {
-        margin-left: auto;
-        margin-right: 1%;
-      }
-      .navbar
-      {
-        background-color:#80c8ff
-      }
-      #TasksContr
-      {
-        margin-top: 1%;
-        margin-right: 1%;
-      }
-      #DocsContr
-      {
-        margin-top: 1%;
-        margin-right: 1%;
-        background: #00bfff;
-      }
-      #infoContr
-      {
-        margin-top: 1%;
-        margin-left: 2%;
-        background: #0f93ff;
-      }
 
-      .card-subtitle
-      {
-        /* color: #000061; */
-        color: #120a8f;
-      }
-      .card-link
-      {
-        color: #f0f8ff;
-      }
-      .contract-page
-      {
-        background-color:#b3deff
-      }
-      .btn-block {
-        width: 250px;
-        background: #29aafe;
-        border-color: #29aafe;
-      }
-      .card-body
-      {
-        background:linear-gradient(to left, #85b4ff, #87CEFA);
-        /* background: #e6e6fa; */
-      }
-    </style>
-  </body>
 
-  <!-- ====================================================== -->
-  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+<div id="TasksContr" class="row align-items-center">
+  <div align="right" class="col">
+    <div class="card border-dark mb-3" style="width: 40rem; background: #00bfff;">
 
-  <script>
+      <div class="card-body">
+        <h5 class="card-title">задачи пользователей в проекте </h5>
+        {%for task in tasks %}
+        <p class="card-text">{{task.taskName}} -> {{task.followers}}</p>
+        {%endfor%}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  #ButnNav {
+    margin-left: auto;
+    margin-right: 1%;
+  }
+
+  .navbar {
+    background-color: #80c8ff
+  }
+
+  #TasksContr {
+    margin-top: 1%;
+    margin-right: 1%;
+  }
+
+  #DocsContr {
+    margin-top: 1%;
+    margin-right: 1%;
+    background: #00bfff;
+  }
+
+  #infoContr {
+    margin-top: 1%;
+    margin-left: 2%;
+    background: #0f93ff;
+  }
+
+  .card-subtitle {
+    /* color: #000061; */
+    color: #120a8f;
+  }
+
+  .card-link {
+    color: #f0f8ff;
+  }
+
+  .contract-page {
+    background-color: #b3deff
+  }
+
+  .btn-block {
+    width: 250px;
+    background: #29aafe;
+    border-color: #29aafe;
+  }
+
+  .card-body {
+    background: linear-gradient(to left, #85b4ff, #87CEFA);
+    /* background: #e6e6fa; */
+  }
+</style>
+
+<script>
   $(document).ready(
-    function()
-    {
-    }
+    function() {}
   )
-  </script>
+</script>
 
-  {%endblock%}
-</html>
+{%endblock%}

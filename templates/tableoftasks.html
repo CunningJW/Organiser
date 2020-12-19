@@ -1,12 +1,20 @@
-{% extends "tableofcontracts.html" %}
+{% extends "main.html" %}
 
-{% block title %}
-<h2> Tasks </h2>
-{% endblock %}
+{%block navitems%}
+<li class="nav-item">
+  <a class="nav-link" href={% url 'allContracts' %}>Contracts</a>
+</li>
+<li class="nav-item active">
+  <a class="nav-link" href={% url 'allTasks' %}>Your Tasks</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href={% url 'addTask' %}>New Task</a>
+</li>
+{%endblock%}
 
-{% block page %}<button  onclick="location.href='/catalog/task_add'" class="btn btn-primary btn-block" type="submit">Add Task</button>{% endblock %}
 
-{% block footer %}
+
+{% block content %}
 <table class="table table-striped" id = "table">
   <thead>
     <tr>
@@ -18,11 +26,9 @@
   <tbody id = "rows">
   </tbody>
 </table>
-{% endblock %}
 
-{% block content %}
 <script>
-  URL = "/catalog/rest_tasks/";
+  URL = "/catalog/rest_tasks/currentuser";
 $(document).ready(
   function()
   {
@@ -31,10 +37,16 @@ $(document).ready(
   )
   function showTasks(tasks)
   {
-    $("#rows").html("")
+    // $("#rows").html("")
     $.each(tasks, function(idx,task)
                       {
-                          $("#rows").append("<tr><td>" + task.taskName + "</td><td>" + task.followers + "</td><td>" + task.taskContractName + " </td></tr>");
+                        content = ''
+                        content += "<tr>"
+                        content +=  "<td>" + task.taskName + "</td>"
+                        content +=  "<td>" + task.followers + "</td>"
+                        content +=  "<td>" + task.taskContractName + "</td>"
+                        content += "</tr>"
+                        $('#table').append(content)
                       }
           );
           $("#table").show();
