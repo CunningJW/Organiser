@@ -8,6 +8,7 @@ urlpatterns = [
     re_path('rest_contract/(?P<code>\w+)/$', views.ContractDetailView.as_view()),
     path('rest_tasks/',  views.TaskView.as_view()),
     re_path('rest_tasks/(?P<code>\w+)/$', views.TaskDetailView.as_view()),
+    re_path('rest_tasks/currentuser', views.TaskUserFilteringView.as_view()),
     path('rest_user/', views.UserView.as_view()),
     # path('rest_task/',  views.list_task),
     # re_path('rest_contract/(?P<contractName>\w+)/$', views.contract_details),

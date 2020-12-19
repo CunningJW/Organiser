@@ -27,7 +27,6 @@
 
 <div class="row no-gutters">
   <div class="col-12 col-sm-6 col-md-8">
-      {% block content %} {% endblock %}
       <h4><i>
         Главная страница сделанная для группового проекта.
         </i></h4>
@@ -36,7 +35,7 @@
         </i></h5>
     </div>
   </div>
-
+      {% block content %} {% endblock %}
   ​<picture>
     <!-- <source srcset="C:\Users\Сергей\Git\Organiser\templates" type="image/svg+xml"> -->
     <img src="{%static 'boxes.jpg'%}" class="img-fluid" alt="Responsive image">
