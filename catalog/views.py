@@ -5,6 +5,7 @@ from rest_framework import serializers, generics, mixins
 from rest_framework.response import Response
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from rest_framework.parsers import MultiPartParser, FormParser
 
 # Create your views here.
 ########################################################################
@@ -20,6 +21,12 @@ class TaskGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ('taskName','followers','description','taskContractName','datetimeStart','datetimeEnd','status')
+
+class DocumentGetSerializer(serializers.ModelSerializer):
+    contract = serializers.StringRelatedField()
+    class Meta:
+        model = Document
+        fields = ('documentName', 'description', 'file', 'contract')
 
 class TaskPostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -132,6 +139,19 @@ class TaskDetailView(generics.ListAPIView):
         serializer = TaskGetSerializer(task, many=True)
         return Response(serializer.data)
 
+class DocumentView(generics.ListAPIView):
+    queryset = Document.objects.all()
+    parser_classes = [MultiPartParser]
+    def get(self, response):
+        document = Document.objects.all()
+        queryset = self.get_queryset()
+        serializer = DocumentGetSerializer(document, many=True)
+        return Response(serializer.data)
+    def post(self,response):
+        serializer = DocumentSerializer(data=request.DATA, files=request.FILES)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
 # class DocumentsView(generics.ListAPIView):
 #     queryset = Document.objects.filter(contract =  )
 #     def get(self, request):
