@@ -31,11 +31,12 @@ class DocumentSerializer(serializers.ModelSerializer):
         model = Task
         fields = ('documentName','description','file','contract')
 
-#######################################################################
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username']
+#######################################################################
 
 def contractlink(request):
     return render(request, "tableofcontracts.html")
