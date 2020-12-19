@@ -1,226 +1,159 @@
-<!doctype html>
-{% load static %}
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+{% extends "main.html" %}
 
-<html lang="ru">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <title>Current Contracts</title>
+{%block navitems%}
+<li class="nav-item">
+  <a class="nav-link" href={% url 'allContracts' %}>Contracts</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href={% url 'allTasks' %}>Your Tasks</a>
+</li>
+<li class="nav-item active">
+  <a class="nav-link" href={% url 'addTask' %}>New Task</a>
+</li>
+{%endblock%}
 
-    <nav class="navbar " sticky-top>
-      <div class="container-fluid">
-          <div align="left" class="col">
-            <h2 >Tasks</h2>
-          </div>
-          <div align="middle" class="col">
-            <picture>
-              <img src="{%static 'LogoInversed.png'%}"/>
-            </picture>
-          </div>
-          <div id="ButnNav" align="right" class="col">
-            <button  onclick="location.href='{% url 'logout' %}'" class="btn btn-primary btn-block" type="submit">LogOut</button>
-            <button  onclick="location.href='/catalog/all_tasks'" class="btn btn-primary btn-block" type="submit">Tasks</button>
-            <button  onclick="location.href='/catalog/all_contracts'" class="btn btn-primary btn-block" type="submit">Contracts</button>
-          </div>
-      </div>
-    </nav>
-  </head>
 
-  <body class="tasksPlus-page">
-    <div id="forma"  align="middle" class ='container-fluid' id = 'tasksPlus'>
-  <form >
-    <div class="form-col">
-  <div class="form-group  col-sm-4">
-    <label for="exampleFormControlInput1">Add a new task:</label>
-    <input type="text" class="form-control" id="Name" placeholder="Enther task name">
-  </div>
-  <div class="form-group col-sm-4">
-    <label for="exampleFormControlSelect1">Whom to send</label>
-    <select class="form-control" id="Users">
-    </select>
-  </div>
-  <div class="form-group col-sm-4">
-    <label for="exampleFormControlSelect1">Select contract</label>
-    <select class="form-control" id= 'Contracts'>
-    </select>
-  </div>
-  <div class="form-group col-sm-4">
-    <label for="exampleFormControlTextarea1">Task description</label>
-    <textarea class="form-control" id="Description" rows="3"></textarea>
-  </div>
-  <div class="form-group  col-sm-4">
-    <label for="exampleFormControlInput1">Add a datetime start:</label>
-    <input type="datetime-local" class="form-control" id="DateTimeStart" placeholder="Enther task name">
-  </div>
-  <div class="form-group  col-sm-4">
-    <label for="exampleFormControlInput1">Add a datetime end:</label>
-    <input type="datetime-local" class="form-control" id="DateTimeEnd" placeholder="Enther task name">
-  </div>
-  <div class="form-group  col-sm-4">
-    <label for="exampleFormControlInput1">Add task status:</label>
-    <input type = "number" min="0" max="1" class="form-control" id="Status" placeholder="Enther task status (0,1)">
-  </div>
 
-  <button onclick = "addTask()" id = "b" class="btn btn-primary btn-block" type="submit"> Send </button>
-  <!-- <div class="form-group col-sm-4">
+
+
+
+{%block content%}
+
+<div class="container tasksPlus-page">
+  <div id="forma" align="middle" class='container-fluid' id='tasksPlus'>
+    <form>
+        <div class="form-group  col-sm-4">
+          <label for="exampleFormControlInput1">Add a new task:</label>
+          <input type="text" class="form-control" id="Name" placeholder="Enther task name">
+        </div>
+        <div class="form-group col-sm-4">
+          <label for="exampleFormControlSelect1">Whom to send</label>
+          <select class="form-control" id="Users">
+          </select>
+        </div>
+        <div class="form-group col-sm-4">
+          <label for="exampleFormControlSelect1">Select contract</label>
+          <select class="form-control" id='Contracts'>
+          </select>
+        </div>
+        <div class="form-group col-sm-4">
+          <label for="exampleFormControlTextarea1">Task description</label>
+          <textarea class="form-control" id="Description" rows="3"></textarea>
+        </div>
+        <div class="form-group  col-sm-4">
+          <label for="exampleFormControlInput1">Add a datetime start:</label>
+          <input type="datetime-local" class="form-control" id="DateTimeStart" placeholder="Enther task name">
+        </div>
+        <div class="form-group  col-sm-4">
+          <label for="exampleFormControlInput1">Add a datetime end:</label>
+          <input type="datetime-local" class="form-control" id="DateTimeEnd" placeholder="Enther task name">
+        </div>
+        <div class="form-group  col-sm-4">
+          <label for="exampleFormControlInput1">Add task status:</label>
+          <input type="number" min="0" max="1" class="form-control" id="Status" placeholder="Enther task status (0,1)">
+        </div>
+
+        <button onclick="addTask()" id="b" class="btn btn-primary" type="submit"> Send </button>
+        <!-- <div class="form-group col-sm-4">
     <label for="exampleFormControlFile1">Attach file</label>
     <input type="file" class="form-control-file" id="exampleFormControlFile5">
   </div> -->
+    </form>
   </div>
-</form>
 </div>
-    <style>
-      #forma
-      {
-        margin-top: 2%;
-      }
 
-      #ButnNav
-      {
-        margin-left: auto;
-        margin-right: 1%;
-      }
-      .navbar
-      {
-        background-color:#80c8ff
-
-      }
-
-
-      .tasksPlus-page
-      {
-        background-color:#b3deff
-      }
-      .btn-block {
-        width: 250px;
-        background: #29aafe;
-        border-color: #29aafe;
-      }
-    </style>
-  </body>
-
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 {% csrf_token %}
+
 <script type="text/javascript">
-// using jQuery
-var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+  // using jQuery
+  var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 </script>
 <script>
-
-// using jQuery
-function getCookie(name) {
+  // using jQuery
+  function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = jQuery.trim(cookies[i]);
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
         }
+      }
     }
     return cookieValue;
-}
-var csrftoken = getCookie('csrftoken');
+  }
+  var csrftoken = getCookie('csrftoken');
 
-function csrfSafeMethod(method) {
+  function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
-
-var URL = "/catalog/rest_contract/";
-var URL2 = "/catalog/rest_user/";
-var URL3 = "/catalog/rest_tasks/"
-
-$(document).ready(
-  function()
-  {
-  $.getJSON(URL,{},showContracts);
-  $.getJSON(URL2,{},showUsers);
   }
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+    }
+  });
 
-)
+  var URLcontracts = "/catalog/rest_contract/";
+  var URLusers = "/catalog/rest_user/";
+  var URLtasks = "/catalog/rest_tasks/"
 
-  function showContracts(contracts)
-  {
+  $(document).ready(
+    function() {
+      $.getJSON(URLcontracts, {}, showContracts);
+      $.getJSON(URLusers, {}, showUsers);
+    }
+
+  )
+
+  function showContracts(contracts) {
     var content = '';
-    $.each(contracts, function(idx,contract)
-    {
+    $.each(contracts, function(idx, contract) {
       content += '<option value = ' + contract.id + '>' + contract.contractName + '</option>';
     });
     $("#Contracts").append(content)
   }
 
-  function showUsers(users)
-  {
+  function showUsers(users) {
     var content = '';
-    $.each(users, function(idx,user)
-    {
+    $.each(users, function(idx, user) {
       content += '<option value =' + user.id + '>' + user.username + '</option>'
     });
     $("#Users").append(content)
   }
 
-//   $('#b').click(function(){
-//   alert($('#Description').val())
-// }
-// )
-var csrftoken = getCookie('csrftoken');
-function csrfSafeMethod(method) {
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
-function addTask()
-    {
-       $.ajax(
-          { url: URL3,
-             data: {
-                       taskName : $("#Name").val(),
-                       followers : $("#Users").val(),
-                       description : $("#Description").val(),
-                       taskContractName : $("#Contracts").val(),
-                       datetimeStart : $("#DateTimeStart").val(),
-                       datetimeEnd : $("#DateTimeEnd").val(),
-                       status : $("#Status").val(),
-                     },
+  function addTask() {
+    $.ajax({
+      url: URLtasks,
+      data: {
+        taskName: $("#Name").val(),
+        followers: $("#Users").val(),
+        description: $("#Description").val(),
+        taskContractName: $("#Contracts").val(),
+        datetimeStart: $("#DateTimeStart").val(),
+        datetimeEnd: $("#DateTimeEnd").val(),
+        status: $("#Status").val(),
+      },
 
-             type : "POST",
-             success : add_success,
-             error : add_error
-          }
-      )
-    }
-
-    function add_success()
-  {
-    alert("Added course Successfully");
+      type: "POST",
+      success: add_success,
+      error: add_error
+    })
   }
 
-  function add_error()
-  {
-    alert("Could not add course!");
+  function add_success() {
+    alert("Added task Successfully");
+  }
+
+  function add_error() {
+    alert("Could not add task!");
   }
 </script>
-
-</html>
+{%endblock%}
