@@ -22,22 +22,30 @@
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      {% csrf_token %}
       {%block navitems%}
-      <li class="nav-item disabled">
-        <a class="nav-link" href=#>Contracts</a>
-      </li>
-      <li class="nav-item disabled">
-        <a class="nav-link" href=#>Your Tasks</a>
-      </li>
-      <li class="nav-item disabled">
-        <a class="nav-link" href=#>New Task</a>
-      </li>
+
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href={% url 'allContracts' %}>Contracts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href={% url 'allTasks' %}>Your Tasks</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href={% url 'addTask' %}>New Task</a>
+        </li>
+        {%endif%}
       {%endblock%}
     </ul>
 
-    <div id = "UserNameField">Hello, </div>
     {%block login%}
+    {% if user.is_authenticated %}
+      <div id = "UserNameField">Hello, {{user.username}}</div>
+      <button onclick="location.href='{% url 'logout' %}'" class="btn btn-primary" type="submit">Log Out</button>
+    {%else%}
       <button onclick="location.href='{% url 'login' %}'" class="btn btn-primary" type="submit">Log In</button>
+    {%endif%}
     {%endblock%}
   </div>
 </nav>
@@ -57,19 +65,6 @@
   }
 </style>
 
-
-<script>
-var URLcurrentuser = '/catalog/rest_currentuser/';
-$(document).ready(
-  function() {
-    $.getJSON(URLcurrentuser, {}, getCurrentUser);
-  }
-);
-function getCurrentUser(currentUser) {
-  $("#UserNameField").append(currentUser.username);
-}
-</script>
-
 {%endblock%}
 
 <body>
@@ -87,15 +82,18 @@ function getCurrentUser(currentUser) {
   </picture>
 
   <div>
-    <div class="col align-self-end">
+    <div id = "teamInfo" class="container-fluid">
       <h5><i>Немного информации о нас:</i></h5>
       <h4><i>Попов В.А. Круглов С.В. Малинин М.Ю.</i></h4>
     </div>
   </div>
   {% endblock %}
 </body>
-
-
+<style>
+#teamInfo{
+  background-color: #80c8ff;
+}
+</style>
 <!-- <style>
 #ButnNav
 {
