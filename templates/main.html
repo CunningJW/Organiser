@@ -1,71 +1,63 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en" >
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 
-<body class="main-page">
-  <nav class="navbar " sticky-top>
-    <div class="container-fluid">
-        <div align="left" class="col">
-          <h2 >Главная страница</h2>
-        </div>
-        <div align="middle" class="col">
-          <picture>
-            <img src="{%static 'LogoInversed.png'%}"/>
-          </picture>
-        </div>
-        <div id="ButnNav" align="right" class="col">
-          <button  onclick="location.href='{% url 'login' %}'" class="btn" type="submit">Войти</button>
-        </div>
-    </div>
-  </nav>
 
 
+{%block navbar%}
+<nav class="navbar nav-tabs navbar-expand-sm navbar-light">
+  <a class="navbar-brand" href="#">
+    <img src="{%static 'LogoInversed.png'%}" / width="168" height="45">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">
-      <img src="{%static 'LogoInversed.png'%}"/ width="168" height="45">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href={% url 'allContracts' %}>Contracts</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href={% url 'allTasks' %}>Your Tasks</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href={% url 'addTask' %}>New Task</a>
+      </li>
+    </ul>
+    <button onclick="location.href='{% url 'login' %}'" class="btn btn-primary" type="submit">Log In</button>
+  </div>
+</nav>
 
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Контракты<span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Задачи</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Добавить задачу</a>
-        </li>
-      </ul>
-      <button  onclick="location.href='{% url 'login' %}'" class="btn btn-primary" type="submit">Log In</button>
-    </div>
-  </nav>
+<style>
+  body {
+    background-color: #b3deff
+  }
+  .navbar {
+    background-color: #80c8ff;
+    padding: 0px;
+    border: 0px;
+  }
 
+  .navbar-brand {
+    padding: 0px;
+  }
+</style>
+{%endblock%}
 
-
-
-
-
-<div class="row no-gutters">
-  <div class="col-12 col-sm-6 col-md-8">
-      {% block content %} {% endblock %}
-      <h4><i>
-        Главная страница сделанная для группового проекта.
-        </i></h4>
-        <h5><i>
-        Отсюда вы можете перейти на страницу входа в аккаунт введя при этом данные своей учетной записи
-        </i></h5>
+<body>
+  {% block content %}
+  <div class="row no-gutters">
+    <div class="col-12 col-sm-6 col-md-8">
+      <h4><i>Главная страница сделанная для группового проекта.</i></h4>
+      <h5><i>Отсюда вы можете перейти на страницу входа в аккаунт введя при этом данные своей учетной записи</i></h5>
     </div>
   </div>
 
@@ -74,24 +66,17 @@
     <img src="{%static 'boxes.jpg'%}" class="img-fluid" alt="Responsive image">
   </picture>
 
-  <div class="fixed-bottom">
+  <div>
     <div class="col align-self-end">
-
-      <h5><i>
-         Немного информации о нас:
-       </i></h5>
-      <h4><i>
-         Попов В.А. Круглов С.В. Малинин М.Ю.
-     </i></h4>
+      <h5><i>Немного информации о нас:</i></h5>
+      <h4><i>Попов В.А. Круглов С.В. Малинин М.Ю.</i></h4>
     </div>
   </div>
+  {% endblock %}
+</body>
 
 
-
-
-
-
-<style>
+<!-- <style>
 #ButnNav
 {
   margin-left: auto;
@@ -99,7 +84,8 @@
 }
 .navbar
 {
-  background-color:#80c8ff
+  background-color:#80c8ff;
+  padding: 20px;
 }
 .fixed-bottom
 {
@@ -111,7 +97,7 @@
     background:#29aafe;
     border-color:#29aafe;
   }
-</style>
-</body>
+</style> -->
+
 
 </html>

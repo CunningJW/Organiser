@@ -41,19 +41,21 @@ class UserSerializer(serializers.ModelSerializer):
 def contractlink(request):
     return render(request, "tableofcontracts.html")
 
-def contractDetailLink(request,pk):
-    try:
-        contract_id=Contract.objects.get(pk=pk)
-    except Contract.DoesNotExist:
-        raise Http404("Contract does not exist")
-    return render(request, "contractTemplate.html",context = {'contractid':contract_id})
-
 def tasklink(request):
     return render(request, "tableoftasks.html")
 
-
 def taskaddlink(request):
     return render(request, "tasksPlus.html")
+
+def contractDetailLink(request,pk):
+    try:
+        contract_id=Contract.objects.get(pk=pk)
+        task = Task.objects.filter(taskContractName = pk)
+    except Contract.DoesNotExist:
+        raise Http404("Contract does not exist")
+    return render(request, "contractTemplate.html",context = {'contractid':contract_id, 'tasks' : task})
+
+
 #######################################################################
 class UserView(generics.ListAPIView):
     queryset = User.objects.all()
@@ -106,6 +108,19 @@ class TaskView(generics.ListAPIView):
             return Response(serializer.data)
         return Response(serializer.errors)
 
+class TaskUserFilteringView(generics.ListAPIView):
+    def get_object(self, request):
+        try:
+            return Task.objects.filter(followers = getCurrentUser(request))
+        except:
+            return Response(status=404)
+    queryset = Task.objects.all()
+    def get(self,request):
+        task = Task.objects.filter(followers = getCurrentUser(request))
+        queryset = self.get_queryset()
+        serializer = TaskGetSerializer(task, many=True)
+        return Response(serializer.data)
+
 class TaskDetailView(generics.ListAPIView):
     def get_object(self, code):
         try:
@@ -116,7 +131,7 @@ class TaskDetailView(generics.ListAPIView):
     def get(self,request,code):
         task = Task.objects.filter(taskContractName = code)
         queryset = self.get_queryset()
-        serializer = TaskSerializer(task, many=True)
+        serializer = TaskGetSerializer(task, many=True)
         return Response(serializer.data)
 
 # class DocumentsView(generics.ListAPIView):
