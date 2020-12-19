@@ -1,5 +1,24 @@
 {% extends "main.html" %}
 
+
+
+{%block navitems%}
+<li class="nav-item">
+  <a class="nav-link" href={% url 'allContracts' %}>Contracts</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href={% url 'allTasks' %}>Your Tasks</a>
+</li>
+<li class="nav-item active">
+  <a class="nav-link" href={% url 'addTask' %}>New Task</a>
+</li>
+{%endblock%}
+
+
+
+
+
+
 {%block content%}
 
 <div class="container tasksPlus-page">
@@ -44,33 +63,9 @@
     </form>
   </div>
 </div>
-<!-- <style>
-    #forma {
-      margin-top: 2%;
-    }
-
-    #ButnNav {
-      margin-left: auto;
-      margin-right: 1%;
-    }
-
-    .navbar {
-      background-color: #80c8ff
-    }
-
-
-    .tasksPlus-page {
-      background-color: #b3deff
-    }
-
-    .btn-block {
-      width: 250px;
-      background: #29aafe;
-      border-color: #29aafe;
-    }
-  </style> -->
 
 {% csrf_token %}
+
 <script type="text/javascript">
   // using jQuery
   var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();

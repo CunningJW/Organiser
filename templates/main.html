@@ -12,7 +12,7 @@
 
 
 {%block navbar%}
-<nav class="navbar nav-tabs navbar-expand-sm navbar-light">
+<nav class="navbar navbar-expand-sm navbar-light">
   <a class="navbar-brand" href={% url 'main' %}>
     <img src="{%static 'LogoInversed.png'%}" / width="168" height="45">
   </a>
@@ -22,17 +22,23 @@
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href={% url 'allContracts' %}>Contracts</a>
+      {%block navitems%}
+      <li class="nav-item disabled">
+        <a class="nav-link" href=#>Contracts</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href={% url 'allTasks' %}>Your Tasks</a>
+      <li class="nav-item disabled">
+        <a class="nav-link" href=#>Your Tasks</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href={% url 'addTask' %}>New Task</a>
+      <li class="nav-item disabled">
+        <a class="nav-link" href=#>New Task</a>
       </li>
+      {%endblock%}
     </ul>
-    <button onclick="location.href='{% url 'login' %}'" class="btn btn-primary" type="submit">Log In</button>
+
+    <div id = "UserNameField">Hello, </div>
+    {%block login%}
+      <button onclick="location.href='{% url 'login' %}'" class="btn btn-primary" type="submit">Log In</button>
+    {%endblock%}
   </div>
 </nav>
 
@@ -50,6 +56,20 @@
     padding: 0px;
   }
 </style>
+
+
+<script>
+var URLcurrentuser = '/catalog/rest_currentuser/';
+$(document).ready(
+  function() {
+    $.getJSON(URLcurrentuser, {}, getCurrentUser);
+  }
+);
+function getCurrentUser(currentUser) {
+  $("#UserNameField").append(currentUser.username);
+}
+</script>
+
 {%endblock%}
 
 <body>

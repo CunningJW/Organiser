@@ -1,5 +1,22 @@
 {% extends "main.html" %}
 
+
+{%block login%}
+<button onclick="location.href='{% url 'logout' %}'" class="btn btn-primary" type="submit">Log Out</button>
+{%endblock%}
+
+{%block navitems%}
+<li class="nav-item active">
+  <a class="nav-link" href={% url 'allContracts' %}>Contracts</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href={% url 'allTasks' %}>Your Tasks</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href={% url 'addTask' %}>New Task</a>
+</li>
+{%endblock%}
+
   {%block content%}
   <div class='container' id='contractCards'></div>
 
