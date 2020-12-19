@@ -152,8 +152,6 @@ class TaskDetailView(generics.ListAPIView):
         queryset = self.get_queryset()
         serializer = TaskGetSerializer(task, many=True)
         return Response(serializer.data)
-<<<<<<< HEAD
-
 class DocumentView(generics.ListAPIView):
     queryset = Document.objects.all()
     parser_classes = [MultiPartParser]
@@ -167,75 +165,3 @@ class DocumentView(generics.ListAPIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-# class DocumentsView(generics.ListAPIView):
-#     queryset = Document.objects.filter(contract =  )
-#     def get(self, request):
-#         getCurrentUser(request)
-#         queryset = self.get_queryset()
-#         # template_name = 'tableofcontracts.html'
-#         # documents = Document.objects.all()
-#         serializer = ContractSerializer(queryset, many=True)
-#         return Response(serializer.data)
-
-#######################################################################
-
-def getCurrentUser(request):
-    return request.user
-
-# def getTasks():
-#     print(Task.objects.all())
-# @api_view(['GET','POST'])
-# def list_contract(request):
-#     if request.method == "GET":
-#         contract = Contract.objects.all()
-#         serializer = ContractSerializer(contract, many = True)
-#         return Response(serializer.data)
-#     else:
-#         serializer = ContractSerializer(data = request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status = 201)
-#         return Response(serializer.errors, status = 400)
-
-# @api_view(['GET','DELETE','PUT'])
-# def contract_details(request, code):
-#     try:
-#         contract = Contract.objects.get(code=code)
-#     except:
-#         return Response(status=404)
-#
-#     if request.method == 'GET':
-#         serializer = ContractSerializer(course)
-#         return Response(serializer.data)
-#     elif request.method == 'PUT':    # Update
-#         serializer = ContractSerializer(contract, data=request.data)
-#         if serializer.is_valid():
-#            serializer.save()    # Update table in DB
-#            return Response(serializer.data)
-#
-#         return Response(serializer.errors, status=400)  # Bad request
-#     elif request.method == 'DELETE':
-#         contract.delete()
-#         return Response(status=204)
-
-# @api_view(['GET','POST'])
-# def list_task(request):
-#     if request.method == "GET":
-#         task = Task.objects.all()
-#         serializer = TaskSerializer(task, many = True)
-#         return Response(serializer.data)
-#     else:
-#         serializer = TaskSerializer(data = request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status = 201)
-#         return Response(serializer.errors, status = 400)
-
-
-def main(request):
-    return render(
-        request,
-        'main.html',
-    )
-=======
->>>>>>> e39e5baa650fe3f9cd4e3effa8862facca170388
