@@ -49,6 +49,9 @@ def tasklink(request):
 def taskaddlink(request):
     return render(request, "tasksPlus.html")
 
+def Proba(request):
+    return render(request, "Proba.html")
+
 def contractDetailLink(request,pk):
     try:
         contract_id=Contract.objects.get(pk=pk)

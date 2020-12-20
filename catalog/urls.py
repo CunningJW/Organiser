@@ -19,6 +19,7 @@ urlpatterns = [
     path('task_add/', views.taskaddlink, name = 'addTask'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.main, name='main'),
+    path('Proba/', views.Proba, name = 'Proba'),
 
 ]
 

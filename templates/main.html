@@ -78,7 +78,7 @@
 
   ​<picture>
     <!-- <source srcset="C:\Users\Сергей\Git\Organiser\templates" type="image/svg+xml"> -->
-    <img src="{%static 'boxes.jpg'%}" class="img-fluid" alt="Responsive image">
+    <img id="pocik" src="{%static 'boxes.jpg'%}" class="img-fluid" alt="Responsive image">
   </picture>
 
   <div>
@@ -87,8 +87,12 @@
       <h4><i>Попов В.А. Круглов С.В. Малинин М.Ю.</i></h4>
     </div>
   </div>
+
   {% endblock %}
 </body>
+<audio id="pocikAudo">
+  <source src="{%static 'Oni.mp3'%}" type="audio/mpeg">
+</audio>
 <style>
 #teamInfo{
   background-color: #80c8ff;
@@ -116,6 +120,13 @@
     border-color:#29aafe;
   }
 </style> -->
-
+<script>
+    var pocik = document.getElementById('pocik'),
+      pocikAudio = document.getElementById('pocikAudo');
+    pocik.addEventListener('click', fPlay, false);
+    function fPlay() {
+      pocikAudio.play();
+    }
+</script>
 
 </html>
