@@ -9,6 +9,8 @@ class Contract(models.Model):
     dateStart = models.DateField()
     dateEnd = models.DateField()
     linkToZakupkigov = models.TextField(help_text="Enter an link to zakupki.gov.ru", default="https://zakupki.gov.ru/epz/main/public/home.html")
+    currentUsers = models.ManyToManyField(User)
+
 
     def __str__(self):
         return self.contractName
@@ -16,6 +18,10 @@ class Contract(models.Model):
     def display_tasks(self):
         selfTasks = Task.objects.filter(taskContractName__contractName = self.contractName)
         return ', '.join([task.taskName for task in selfTasks])
+
+    def display_users(self):
+         return ', '.join([user.username for user in self.currentUsers.all()])
+
     def getLink(self):
         return reverse('contractDetail', args=[str(self.id)])
 

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Contract, Task, Document
 from rest_framework import serializers, generics, mixins
 # from rest_framework.decorators import api_view
+from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -12,7 +13,9 @@ from django.contrib.auth.models import User
 class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
-        fields = ('id','contractName','zakupkiId','dateStart','dateEnd','display_tasks','getLink','linkToZakupkigov')
+        fields = ('id','contractName','zakupkiId','dateStart','dateEnd','display_tasks','getLink','linkToZakupkigov','currentUsers')
+
+
 
 class TaskGetSerializer(serializers.ModelSerializer):
     taskContractName = serializers.StringRelatedField()
@@ -79,7 +82,12 @@ class UserView(generics.ListAPIView):
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
 
+
+
+
 class ContractView(generics.ListAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'tableofcontracts.html'
     queryset = Contract.objects.all()
     def get(self, request):
         # getCurrentUser(request)
@@ -87,7 +95,7 @@ class ContractView(generics.ListAPIView):
         # template_name = 'tableofcontracts.html'
         contracts = Contract.objects.all()#filter(user = 'getCurrentUser(request)')
         serializer = ContractSerializer(contracts, many=True)
-        return Response(serializer.data)
+        return Response({'serializer': serializer,'contracts': contracts})
 
 class ContractDetailView(generics.RetrieveAPIView):
     def get_object(self, code):
@@ -102,17 +110,38 @@ class ContractDetailView(generics.RetrieveAPIView):
         serializer = ContractSerializer(contract)
         return Response(serializer.data)
 
+class ContractFilteringView(generics.ListAPIView):
+    def get_object(self, request):
+        try:
+            return Contract.objects.filter(currentUsers = getCurrentUser(request))
+        except:
+            return Response(status=404)
+    queryset = Contract.objects.all()
+    def get(self,request):
+        contract = Contract.objects.filter(currentUsers = getCurrentUser(request))
+        queryset = self.get_queryset()
+        serializer = ContractSerializer(contract, many=True)
+        return Response(serializer.data)
+
+
+
+
+
+
 class TaskView(generics.ListAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'tableoftasks.html'
+
     queryset = Task.objects.all()
     serializer_class = TaskGetSerializer
+
     def get(self, request):
         getCurrentUser(request)
-        # getTasks()
         queryset = self.get_queryset()
-        # template_name = 'tableofcontracts.html'
-        tasks = Task.objects.all().order_by('taskContractName')#filter(user = 'getCurrentUser(request)')
+        tasks = Task.objects.all().order_by('taskContractName')
         serializer = TaskGetSerializer(tasks, many=True)
-        return Response(serializer.data)
+        return Response({'serializer': serializer,'tasks': tasks})
+
     def post(self, request):
         serializer = TaskPostSerializer(data=request.data)
         if serializer.is_valid():

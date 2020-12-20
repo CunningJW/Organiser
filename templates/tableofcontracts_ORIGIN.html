@@ -13,25 +13,47 @@
 {%endblock%}
 
   {%block content%}
+  <div class='container' id='contractCards'></div>
 
-  <div class='container' id='contractCards'>
-    <div class="row justify-content-md-center">
-      {%for contract in contracts%}
-      <div class="col-md-auto">
-        <div class="card border-info mb-3" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title"> {{contract.contractName}} </h5>
-            <h6 class="card-subtitle mb-2"> {{contract.zakupkiId}} </h6>
-            <h6 class="card-text ">Date Start: {{contract.dateStart}} </h6>
-            <h6 class="card-text">Date End: {{contract.dateEnd}} </h6>
-            <a href='{{contract.getLink}}' class="card-link"> Open Contract </a>
-            <a href="#" class="card-link">User List</a>
-          </div>
-        </div>
-      </div>
-      {%endfor%}
-    </div>
-  </div>
+  <script>
+    var contractListURL = "/catalog/rest_contract/";
+    $(document).ready(
+      function() {
+        $.getJSON(contractListURL, {}, showContracts);
+      }
+    )
+
+    function showContracts(contracts) {
+      $("#rows").html("")
+      var count = 0
+      var content = '';
+      $.each(contracts, function(idx, contract) {
+        if (count == 0) {
+          content += '<div class="row justify-content-md-center">'
+        }
+        content += '<div class="col-md-auto">'
+        content += '<div class="card border-info mb-3" style="width: 18rem;">'
+        content += '<div class="card-body">'
+        content += '<h5 class="card-title">' + contract.contractName + '</h5>'
+        content += '<h6 class="card-subtitle mb-2">' + contract.zakupkiId + '</h6>'
+        content += '<h6 class="card-text ">Date Start: ' + contract.dateStart + '</h6>'
+        content += '<h6 class="card-text">Date End: ' + contract.dateEnd + '</h6>'
+        content += '<a href=' + contract.getLink + ' class="card-link">Open Contract</a>'
+        content += '<a href="#" class="card-link">User List</a>'
+        content += '</div>'
+        content += '</div>'
+        content += '</div>'
+
+        count += 1
+        if (count == 3) {
+          content += '</div>'
+          count = 0
+        }
+      });
+      $("#contractCards").append(content)
+    }
+  </script>
+
   <style>
     #contractCards{
       padding-top: 10px;
