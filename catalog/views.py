@@ -128,38 +128,6 @@ class ContractFilteringView(generics.ListAPIView):
         return Response(serializer.data)
 
 
-
-
-
-
-# class TaskView(generics.ListAPIView):
-#     renderer_classes = [TemplateHTMLRenderer]
-#     template_name = 'tasksPlus.html'
-#
-#     queryset = Task.objects.all()
-#     serializer_class = TaskGetSerializer
-#
-#     def get(self, request):
-#         getCurrentUser(request)
-#         queryset = self.get_queryset()
-#
-#         tasks = Task.objects.all().order_by('taskContractName')
-#         contracts = Contract.objects.all()
-#         users = User.objects.all()
-#
-#         serializer = TaskGetSerializer(tasks, many=True)
-#         return Response({'serializer': serializer,'tasks': tasks, 'contracts': contracts, 'users': users})
-#
-#     def post(self, request):
-#         tasks = Task.objects.all().order_by('taskContractName')
-#         serializer = TaskPostSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         else:
-#             return Response(serializer.errors)
-
-
 class TaskView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'tasksPlus.html'
