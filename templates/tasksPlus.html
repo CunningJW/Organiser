@@ -14,108 +14,15 @@
 </li>
 {%endblock%}
 
-
-
-
-
-
 {%block content%}
 
 <div class="container tasksPlus-page">
   <div id="forma" align="middle" class='container-fluid' id='tasksPlus'>
     <form action="{% url 'addTask'%}" method="POST">
-
       {% csrf_token %}
       {% render_form serializer %}
       <input type="submit" value="Save">
-
-
     </form>
   </div>
 </div>
-
-
-
-<!-- <script type="text/javascript">
-  // using jQuery
-  var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-</script>
-<script>
-  // using jQuery
-  function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-      var cookies = document.cookie.split(';');
-      for (var i = 0; i < cookies.length; i++) {
-        var cookie = jQuery.trim(cookies[i]);
-        // Does this cookie string begin with the name we want?
-        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
-  var csrftoken = getCookie('csrftoken');
-
-  function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-  }
-  $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-      }
-    }
-  });
-
-  var URLcontracts = "/catalog/rest_contract/";
-  var URLusers = "/catalog/rest_user/";
-  var URLtasks = "/catalog/rest_tasks/"
-
-  $(document).ready(
-    function() {
-      $.getJSON(URLcontracts, {}, showContracts);
-      $.getJSON(URLusers, {}, showUsers);
-    }
-
-  )
-
-  function showUsers(users) {
-    var content = '';
-    $.each(users, function(idx, user) {
-      content += '<option value =' + user.id + '>' + user.username + '</option>'
-    });
-    $("#Users").append(content)
-  }
-
-  function addTask() {
-    $.ajax({
-      url: URLtasks,
-      data: {
-        taskName: $("#Name").val(),
-        followers: $("#Users").val(),
-        description: $("#Description").val(),
-        taskContractName: $("#Contracts").val(),
-        datetimeStart: $("#DateTimeStart").val(),
-        datetimeEnd: $("#DateTimeEnd").val(),
-        status: $("#Status").val(),
-      },
-
-      type: "POST",
-      success: add_success,
-      error: add_error
-    })
-  }
-
-  function add_success() {
-    alert("Added task Successfully");
-  }
-
-  function add_error() {
-    alert("Could not add task!");
-  }
-</script> -->
 {%endblock%}

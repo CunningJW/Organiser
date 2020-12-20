@@ -1,6 +1,6 @@
 {% extends "main.html" %}
-
 {%block navitems%}
+
 <li class="nav-item active">
   <a class="nav-link" href={% url 'allContracts' %}>Contracts</a>
 </li>
@@ -12,96 +12,54 @@
 </li>
 {%endblock%}
 
-  {%block content%}
+{%block content%}
 
-  <div class='container' id='contractCards'>
-    <div class="row justify-content-md-center">
-      {%for contract in contracts%}
-      <div class="col-md-auto">
-        <div class="card border-info mb-3" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title"> {{contract.contractName}} </h5>
-            <h6 class="card-subtitle mb-2"> {{contract.zakupkiId}} </h6>
-            <h6 class="card-text ">Date Start: {{contract.dateStart}} </h6>
-            <h6 class="card-text">Date End: {{contract.dateEnd}} </h6>
-            <a href='{{contract.getLink}}' class="card-link"> Open Contract </a>
-            <a href="#" class="card-link">User List</a>
-          </div>
+<div class='container' id='contractCards'>
+  <div class="row justify-content-md-center">
+    {%for contract in contracts%}
+    <div class="col-md-auto">
+      <div class="card border-info mb-3" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title"> {{contract.contractName}} </h5>
+          <h6 class="card-subtitle mb-2"> {{contract.zakupkiId}} </h6>
+          <h6 class="card-text ">Date Start: {{contract.dateStart}} </h6>
+          <h6 class="card-text">Date End: {{contract.dateEnd}} </h6>
+          <a href='{{contract.getLink}}' class="card-link"> Open Contract </a>
+          <a href="#" class="card-link" data-toggle="popover" title="Popover title">User List</a>
         </div>
       </div>
-      {%endfor%}
     </div>
+    {%endfor%}
   </div>
-  <style>
-    #contractCards{
-      padding-top: 10px;
-    }
-    .card-body {
-      background: linear-gradient(to left, #85b4ff, #87CEFA);
-      /* background: #e6e6fa; */
-    }
+</div>
 
-    .card-title,
-    .card-text {
-      color: #000061;
-    }
 
-    .card-subtitle {
-      /* color: #000061; */
-      color: #120a8f;
-    }
+<style>
+  #contractCards {
+    padding-top: 10px;
+  }
 
-    .card-link {
-      color: #f0f8ff;
-    }
-  </style>
+  .card-body {
+    background: linear-gradient(to left, #85b4ff, #87CEFA);
+    /* background: #e6e6fa; */
+  }
 
-  {% endblock %}
+  .card-title,
+  .card-text {
+    color: #000061;
+  }
 
-<!-- <style>
-      #ButnNav
-      {
-        margin-left: auto;
-        margin-right: 1%;
-      }
-      .navbar
-      {
-        background-color:#80c8ff
+  .card-subtitle {
+    /* color: #000061; */
+    color: #120a8f;
+  }
 
-      }
-      .card-body
-      {
-        background:linear-gradient(to left, #85b4ff, #87CEFA);
-        /* background: #e6e6fa; */
-      }
-      .card-title, .card-text
-      {
-        color: #000061;
-      }
-      .card-subtitle
-      {
-        /* color: #000061; */
-        color: #120a8f;
-      }
-      .card-link
-      {
-        color: #f0f8ff;
-      }
-      .hr-xs
-      {
-        margin-top:5px;
-        margin-bottom:5px
-      }
-      .table-page
-      {
-        background-color:#b3deff
-      }
-      .btn-block {
-        width: 250px;
-        background: #29aafe;
-        border-color: #29aafe;
-      }
-      .border-info{
-        margin-top: 5%;
-      }
-    </style> -->
+  .card-link {
+    color: #f0f8ff;
+  }
+</style>
+
+
+
+
+{% endblock %}
