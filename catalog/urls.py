@@ -5,7 +5,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('all_contracts/',  views.ContractView.as_view(), name = 'allContracts'),
-    path('all_tasks/',  views.TaskView.as_view(), name = 'allTasks'),
+    path('my_tasks/',  views.TaskUserFilteringView.as_view(), name = 'myTasks'),
+    path('add_task/', views.TaskView.as_view(), name = 'addTask'),
 
     re_path('rest_contract/(?P<code>\w+)/$', views.ContractDetailView.as_view()),
     re_path('rest_contract/currentuser', views.ContractFilteringView.as_view()),
@@ -17,7 +18,7 @@ urlpatterns = [
 
 
     re_path('all_contracts/(?P<pk>\w+)/$', views.contractDetailLink, name = 'contractDetail'),
-    path('task_add/', views.taskaddlink, name = 'addTask'),
+
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.main, name='main'),
 

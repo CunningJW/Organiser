@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Contract, Task, Document
 from rest_framework import serializers, generics, mixins
 # from rest_framework.decorators import api_view
@@ -6,6 +6,10 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from django.shortcuts import render
 from django.contrib.auth.models import User
+
+
+
+from rest_framework.views import APIView
 
 # Create your views here.
 ########################################################################
@@ -128,28 +132,65 @@ class ContractFilteringView(generics.ListAPIView):
 
 
 
-class TaskView(generics.ListAPIView):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'tableoftasks.html'
+# class TaskView(generics.ListAPIView):
+#     renderer_classes = [TemplateHTMLRenderer]
+#     template_name = 'tasksPlus.html'
+#
+#     queryset = Task.objects.all()
+#     serializer_class = TaskGetSerializer
+#
+#     def get(self, request):
+#         getCurrentUser(request)
+#         queryset = self.get_queryset()
+#
+#         tasks = Task.objects.all().order_by('taskContractName')
+#         contracts = Contract.objects.all()
+#         users = User.objects.all()
+#
+#         serializer = TaskGetSerializer(tasks, many=True)
+#         return Response({'serializer': serializer,'tasks': tasks, 'contracts': contracts, 'users': users})
+#
+#     def post(self, request):
+#         tasks = Task.objects.all().order_by('taskContractName')
+#         serializer = TaskPostSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors)
 
-    queryset = Task.objects.all()
-    serializer_class = TaskGetSerializer
+
+class TaskView(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'tasksPlus.html'
+    # serializer_class = TaskPostSerializer
 
     def get(self, request):
         getCurrentUser(request)
-        queryset = self.get_queryset()
-        tasks = Task.objects.all().order_by('taskContractName')
-        serializer = TaskGetSerializer(tasks, many=True)
-        return Response({'serializer': serializer,'tasks': tasks})
+
+        contracts = Contract.objects.all()
+        users = User.objects.all()
+
+        serializer = TaskPostSerializer()
+        return Response({'serializer': serializer,'contracts': contracts, 'users': users})
 
     def post(self, request):
-        serializer = TaskPostSerializer(data=request.data)
+        print(request.data)
+        serializer = TaskPostSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
+            return redirect('myTasks')
+
+        else:
+            return Response(serializer.errors)
+
+
+
 
 class TaskUserFilteringView(generics.ListAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'tableoftasks.html'
+
     def get_object(self, request):
         try:
             return Task.objects.filter(followers = getCurrentUser(request))
@@ -157,10 +198,10 @@ class TaskUserFilteringView(generics.ListAPIView):
             return Response(status=404)
     queryset = Task.objects.all()
     def get(self,request):
-        task = Task.objects.filter(followers = getCurrentUser(request))
+        myTasks = Task.objects.filter(followers = getCurrentUser(request))
         queryset = self.get_queryset()
-        serializer = TaskGetSerializer(task, many=True)
-        return Response(serializer.data)
+        serializer = TaskGetSerializer(myTasks, many=True)
+        return Response({'serializer': serializer,'tasks': myTasks})
 
 class TaskDetailView(generics.ListAPIView):
     def get_object(self, code):
