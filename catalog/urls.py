@@ -7,7 +7,8 @@ urlpatterns = [
     path('all_contracts/',  views.ContractView.as_view(), name = 'allContracts'),
     path('my_tasks/',  views.TaskUserFilteringView.as_view(), name = 'myTasks'),
     path('add_task/', views.TaskAddNew.as_view(), name = 'addTask'),
-
+    path('add_document/', views.DocumentView.as_view(), name = 'addDocument'),
+    # path('uploads/(?P<filename>\w+)/$', views.DocumentDownloadlView.as_view(), name='downloadFile'),
     re_path('rest_contract/(?P<code>\w+)/$', views.ContractDetailView.as_view()),
     re_path('rest_contract/currentuser', views.ContractFilteringView.as_view()),
 

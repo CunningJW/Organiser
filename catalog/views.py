@@ -6,9 +6,10 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework.parsers import MultiPartParser, FormParser
-
-
+from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
+from django.core.files import File
+from django.http import HttpResponse
+# from organiser.settings import MEDIA_ROOT
 
 from rest_framework.views import APIView
 
@@ -41,6 +42,7 @@ class TaskPostSerializer(serializers.ModelSerializer):
         fields = ('taskName','followers','description','taskContractName','datetimeStart','datetimeEnd','status')
 
 class DocumentSerializer(serializers.ModelSerializer):
+    # file = serializers.FileField()
     class Meta:
         model = Document
         fields = ('documentName','description','file','contract')
@@ -141,12 +143,10 @@ class TaskAddNew(APIView):
         return Response({'serializer': serializer,'contracts': contracts, 'users': users})
 
     def post(self, request):
-        print(request.data)
         serializer = TaskPostSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
             return redirect('myTasks')
-
         else:
             return Response(serializer.errors)
 
@@ -184,21 +184,31 @@ class TaskDetailView(generics.ListAPIView):
         serializer = TaskGetSerializer(task, many=True)
         return Response(serializer.data)
 
-class DocumentView(generics.ListAPIView):
-    queryset = Document.objects.all()
-    serializer_class = DocumentSerializer
-    parser_classes = [MultiPartParser]
+class DocumentView(APIView):
+    # queryset = Document.objects.all()
+    # serializer_class = DocumentSerializer
+    renderer_classes = [MultiPartParser,TemplateHTMLRenderer]
+    template_name = 'documentPlus.html'
+
     def get(self, request):
         document = Document.objects.all()
-        queryset = self.get_queryset()
-        serializer = DocumentGetSerializer(document, many=True)
-        return Response(serializer.data)
-    def put(self, request):
-        serializer = DocumentSerializer(data=request.data)
+        print(document)
+        serializer = DocumentSerializer()
+        return Response({'serializer' : serializer, 'document' : document})
+
+    def post(self, request):
+        serializer = DocumentSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
-            print(serializer)
-            return Response(serializer.data)
+            return redirect('myTasks')
         else:
-            print("cringe")
+            print("err")
             return Response(serializer.errors)
+
+# class DocumentDownloadlView(APIView):
+#     def get(self, request, filename):
+#         pathToFile = MEDIA_ROOT + filename
+#         fileOpen = open(pathToFile, 'rb')
+#         response = HttpResponse(File(fileOpen).read())
+#         response['Content-Disposition'] = 'attachment'
+#         return response
