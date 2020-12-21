@@ -13,10 +13,8 @@ urlpatterns = [
     path('rest_document/', views.DocumentView.as_view()),
     # path('rest_task/',  views.list_task),
     # re_path('rest_contract/(?P<contractName>\w+)/$', views.contract_details),
-    path('all_contracts/', views.contractlink),
-    path('all_tasks/', views.tasklink),
     path('rest_currentuser/', views.CurrentUserView.as_view()),
-
+    path('document_add/', views.testdocumentlink, name = 'addDocument' ),
 
     path('all_contracts/', views.contractlink, name = 'allContracts'),
     path('all_tasks/', views.tasklink, name = 'allTasks'),

@@ -35,7 +35,7 @@ class TaskPostSerializer(serializers.ModelSerializer):
 
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Task
+        model = Document
         fields = ('documentName','description','file','contract')
 
 
@@ -49,6 +49,9 @@ def getCurrentUser(request):
 
 def contractlink(request):
     return render(request, "tableofcontracts.html")
+
+def testdocumentlink(request):
+    return render(request, "documentPlus.html")
 
 def tasklink(request):
     return render(request, "tableoftasks.html")
@@ -125,7 +128,8 @@ class TaskView(generics.ListAPIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors)
+        else:
+            return Response(serializer.errors)
 
 class TaskUserFilteringView(generics.ListAPIView):
     def get_object(self, request):
@@ -152,16 +156,22 @@ class TaskDetailView(generics.ListAPIView):
         queryset = self.get_queryset()
         serializer = TaskGetSerializer(task, many=True)
         return Response(serializer.data)
+
 class DocumentView(generics.ListAPIView):
     queryset = Document.objects.all()
+    serializer_class = DocumentSerializer
     parser_classes = [MultiPartParser]
-    def get(self, response):
+    def get(self, request):
         document = Document.objects.all()
         queryset = self.get_queryset()
         serializer = DocumentGetSerializer(document, many=True)
         return Response(serializer.data)
-    def post(self,response):
-        serializer = DocumentSerializer(data=request.DATA, files=request.FILES)
+    def put(self, request):
+        serializer = DocumentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            print(serializer)
             return Response(serializer.data)
+        else:
+            print("cringe")
+            return Response(serializer.errors)

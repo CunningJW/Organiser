@@ -1,0 +1,120 @@
+{% extends "tasksPlus.html" %}
+
+{% block content %}
+<div id="forma" align="middle" class='container-fluid' id='tasksPlus'>
+
+  <form id="form" method="put" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group col-sm-4">
+        <label for="exampleFormControlInput1">Add a new document:</label>
+        <input type="text" class="form-control" id="Name" placeholder="Enther document name">
+    </div>
+
+    <div class="form-group col-sm-4">
+        <label for="exampleFormControlTextarea1">Task description</label>
+        <textarea class="form-control" id="Description" rows="3"></textarea>
+    </div>
+
+    <div class="form-group col-sm-4">
+        <label for="exampleFormControlFile1">Attach file</label>
+        <input type="file" class="form-control-file" id="File">
+    </div>
+
+    <div class="form-group col-sm-4">
+        <div>
+          <label for="exampleFormControlSelect1">Select contract</label>
+          <select class="form-control" id='Contracts'>
+          </select>
+        </div>
+    </div>
+
+    <div class="form-group col-sm-4">
+      <button onclick="addDocument()" id="Buttom" class="btn btn-primary" type="submit"> Send </button>
+    </div>
+
+  </form>
+
+</div>
+
+
+
+<script type="text/javascript">
+  // using jQuery
+  var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+</script>
+<script>
+  // using jQuery
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = jQuery.trim(cookies[i]);
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  var csrftoken = getCookie('csrftoken');
+
+  function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+    }
+  });
+var URLcontracts = "/catalog/rest_contract/";
+var URLdocuments= "/catalog/rest_document/"
+
+$(document).ready(
+  function() {
+    $.getJSON(URLcontracts, {}, showContracts);
+  }
+)
+function showContracts(contracts) {
+  var content = '';
+  $.each(contracts, function(idx, contract) {
+    content += '<option value = ' + contract.id + '>' + contract.contractName + '</option>';
+  });
+  $("#Contracts").append(content)
+}
+
+function addDocument() {
+  var formData = new FormData();
+  formData.append('documentName', $("#Name").val());
+  formData.append('description', $("#Description").val());
+  formData.append('file', $('#File')[0].files[0]);
+  formData.append('contract', $("#Contracts").val());
+
+  $.ajax({
+    url: URLdocuments,
+    data: formData,
+    type: "PUT",
+    cache: false,
+    dataType    : 'application/x-www-form-urlencoded',
+    processData : false,
+    contentType: 'multipart/form-data',
+    success: add_success,
+    error: add_error
+  })
+}
+
+function add_success() {
+  alert("Added task Successfully");
+}
+
+function add_error() {
+  alert("Could not add task!");
+}
+
+</script>
+{% endblock %}
