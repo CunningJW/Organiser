@@ -4,7 +4,7 @@ from .models import Contract, Task, Document
 # Define the admin class
 @admin.register(Contract)
 class ContractAdmin (admin.ModelAdmin):
-    list_display = ('zakupkiId','contractName','dateStart','dateEnd','display_tasks')
+    list_display = ('zakupkiId','contractName','dateStart','dateEnd','display_tasks','display_users')
 
 @admin.register(Task)
 class TaskAdmin (admin.ModelAdmin):
