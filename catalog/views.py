@@ -192,7 +192,6 @@ class DocumentView(APIView):
 
     def get(self, request):
         document = Document.objects.all()
-        print(document)
         serializer = DocumentSerializer()
         return Response({'serializer' : serializer, 'document' : document})
 

@@ -2,6 +2,8 @@ from django.urls import path, re_path
 from django.conf.urls import include
 from catalog import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('all_contracts/',  views.ContractView.as_view(), name = 'allContracts'),
@@ -11,6 +13,7 @@ urlpatterns = [
     # path('uploads/(?P<filename>\w+)/$', views.DocumentDownloadlView.as_view(), name='downloadFile'),
     re_path('rest_contract/(?P<code>\w+)/$', views.ContractDetailView.as_view()),
     re_path('rest_contract/currentuser', views.ContractFilteringView.as_view()),
+    # path('uploads/'),
 
     re_path('rest_tasks/(?P<code>\w+)/$', views.TaskDetailView.as_view()),
     re_path('rest_tasks/currentuser', views.TaskUserFilteringView.as_view()),
@@ -25,4 +28,5 @@ urlpatterns = [
 
 ]
 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_DIRS)
 urlpatterns += staticfiles_urlpatterns()
