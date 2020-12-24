@@ -8,11 +8,11 @@
     <div align="left" class="col">
       <div id="infoContr" class="card border-info mb-3" style="width: 18rem; ">
         <div class="card-body">
-          <h5 class="card-title">{{contractid.contractName}} </h5>
-          <a class="card-subtitle" href='{{contractid.linkToZakupkigov}}'>№: {{contractid.zakupkiId}}</a>
+          <h5 class="card-title">{{contract_id.contractName}} </h5>
+          <a class="card-subtitle" href='{{contractid.linkToZakupkigov}}'>№: {{contract_id.zakupkiId}}</a>
           <p></p>
-          <p class="card-text">Date of start: {{contractid.dateStart}}</p>
-          <p class="card-text">Date of end: {{contractid.dateEnd}}</p>
+          <p class="card-text">Date of start: {{contract_id.dateStart}}</p>
+          <p class="card-text">Date of end: {{contract_id.dateEnd}}</p>
           <div class="text-right">
             <a type="button" href="/catalog/all_contracts" class="btn btn-secondary btn-sm">Back</a>
           </div>
@@ -24,10 +24,9 @@
       <div id="DocsContr" class="card border-dark mb-3" style="width: 35rem;">
         <div class="card-body">
           <h5 class="card-title">Documents</h5>
-          <p class="card-text">клуб доки доки</p>
-          <p class="card-text">другой доки доки</p>
-          <p class="card-text">клуб доки доки</p>
-          <p class="card-text">другой доки доки</p>
+            {% for document in documents %}
+            <p class="card-text"><a href = '/catalog/{{document.file}}' download>Document: {{document.documentName}}</a></p>
+            {% endfor %}
         </div>
       </div>
     </div>

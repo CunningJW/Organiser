@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Contract, Task, Document
 from rest_framework import serializers, generics, mixins
-# from rest_framework.decorators import api_view
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from django.shortcuts import render
@@ -68,14 +67,14 @@ def tasklink(request):
 def taskaddlink(request):
     return render(request, "tasksPlus.html")
 
-def contractDetailLink(request,pk):
-    try:
-        contract_id=Contract.objects.get(pk=pk)
-        task = Task.objects.filter(taskContractName = pk)
-    except Contract.DoesNotExist:
-        raise Http404("Contract does not exist")
-    return render(request, "contractTemplate.html",context = {'contractid':contract_id, 'tasks' : task})
-
+# def contractDetailLink(request,pk):
+#     try:
+#         contract_id=Contract.objects.get(pk=pk)
+#         task = Task.objects.filter(taskContractName = pk)
+#     except Contract.DoesNotExist:
+#         raise Http404("Contract does not exist")
+#     return render(request, "contractTemplate.html",context = {'contractid':contract_id, 'tasks' : task})
+#
 def main(request):
     return render(request,'main.html')
 
@@ -98,20 +97,21 @@ class ContractView(generics.ListAPIView):
 
 class ContractDetailView(generics.RetrieveAPIView):
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'tasksPlus.html'
+    template_name = "contractTemplate.html"
 
-    def get_object(self, code):
+    def get_object(self, pk):
         try:
-            return Contract.objects.get(id = code)
-        except:
-            return Response(status=404)
-    queryset = Contract.objects.all()
+            contract_id=Contract.objects.get(pk=pk)
+            tasks = Task.objects.filter(taskContractName = pk)
+        except Contract.DoesNotExist:
+            raise Http404("Contract does not exist")
 
-    def get(self,request,code):
-        contract = Contract.objects.get(id = code)
-        queryset = self.get_queryset()
-        serializer = ContractSerializer(contract)
-        return Response(serializer.data)
+    def get(self,request,pk):
+        contract_id=Contract.objects.get(pk=pk)
+        tasks = Task.objects.filter(taskContractName = pk)
+        documents = Document.objects.filter(contract = pk)
+        serializer = ContractSerializer(contract_id)
+        return Response({'serializer': serializer,'contract_id': contract_id, 'tasks' : tasks, 'documents' : documents})
 
 
 class ContractFilteringView(generics.ListAPIView):

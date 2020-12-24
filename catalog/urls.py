@@ -11,8 +11,10 @@ urlpatterns = [
     path('add_task/', views.TaskAddNew.as_view(), name = 'addTask'),
     path('add_document/', views.DocumentView.as_view(), name = 'addDocument'),
     # path('uploads/(?P<filename>\w+)/$', views.DocumentDownloadlView.as_view(), name='downloadFile'),
-    re_path('rest_contract/(?P<code>\w+)/$', views.ContractDetailView.as_view()),
-    re_path('rest_contract/currentuser', views.ContractFilteringView.as_view()),
+
+
+    # re_path('rest_contract/(?P<code>\w+)/$', views.ContractDetailView.as_view()),
+    # re_path('rest_contract/currentuser', views.ContractFilteringView.as_view()),
     # path('uploads/'),
 
     re_path('rest_tasks/(?P<code>\w+)/$', views.TaskDetailView.as_view()),
@@ -21,7 +23,7 @@ urlpatterns = [
     # path('rest_currentuser/', views.CurrentUserView.as_view()),
 
 
-    re_path('all_contracts/(?P<pk>\w+)/$', views.contractDetailLink, name = 'contractDetail'),
+    re_path('all_contracts/(?P<pk>\w+)/$', views.ContractDetailView.as_view(), name = 'contractDetail'),
 
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.main, name='main'),

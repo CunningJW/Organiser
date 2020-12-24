@@ -40,6 +40,7 @@ class Task(models.Model):
     datetimeEnd = models.DateTimeField()
     status = models.CharField(max_length=1, help_text="Enter a task status 0 - active, 1 - completed")
 
+
     def __str__(self):
         return self.taskName
 
