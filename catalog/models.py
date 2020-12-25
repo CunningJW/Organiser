@@ -9,6 +9,8 @@ class Contract(models.Model):
     dateStart = models.DateField()
     dateEnd = models.DateField()
     linkToZakupkigov = models.TextField(help_text="Enter an link to zakupki.gov.ru", default="https://zakupki.gov.ru/epz/main/public/home.html")
+    currentUsers = models.ManyToManyField(User)
+
 
     def __str__(self):
         return self.contractName
@@ -16,6 +18,10 @@ class Contract(models.Model):
     def display_tasks(self):
         selfTasks = Task.objects.filter(taskContractName__contractName = self.contractName)
         return ', '.join([task.taskName for task in selfTasks])
+
+    def display_users(self):
+         return ', '.join([user.username for user in self.currentUsers.all()])
+
     def getLink(self):
         return reverse('contractDetail', args=[str(self.id)])
 
@@ -27,12 +33,14 @@ class Contract(models.Model):
 
 class Task(models.Model):
     taskName = models.CharField(max_length=200, help_text="Enter a task name")
-    followers = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    performer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, help_text="Who will need to complete it?", related_name="task_for")
+    sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="task_from")
     description = models.TextField(help_text="Enter a task description")
     taskContractName = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True)
     datetimeStart = models.DateTimeField()
     datetimeEnd = models.DateTimeField()
     status = models.CharField(max_length=1, help_text="Enter a task status 0 - active, 1 - completed")
+
 
     def __str__(self):
         return self.taskName

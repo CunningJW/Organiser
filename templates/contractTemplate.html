@@ -8,11 +8,11 @@
     <div align="left" class="col">
       <div id="infoContr" class="card border-info mb-3" style="width: 18rem; ">
         <div class="card-body">
-          <h5 class="card-title">{{contractid.contractName}} </h5>
-          <a class="card-subtitle" href='{{contractid.linkToZakupkigov}}'>№: {{contractid.zakupkiId}}</a>
+          <h5 class="card-title">{{contract_id.contractName}} </h5>
+          <a class="card-subtitle" href='{{contractid.linkToZakupkigov}}'>№: {{contract_id.zakupkiId}}</a>
           <p></p>
-          <p class="card-text">Date of start: {{contractid.dateStart}}</p>
-          <p class="card-text">Date of end: {{contractid.dateEnd}}</p>
+          <p class="card-text">Date of start: {{contract_id.dateStart}}</p>
+          <p class="card-text">Date of end: {{contract_id.dateEnd}}</p>
           <div class="text-right">
             <a type="button" href="/catalog/all_contracts" class="btn btn-secondary btn-sm">Back</a>
           </div>
@@ -24,90 +24,108 @@
       <div id="DocsContr" class="card border-dark mb-3" style="width: 35rem;">
         <div class="card-body">
           <h5 class="card-title">Documents</h5>
-          <p class="card-text">клуб доки доки</p>
-          <p class="card-text">другой доки доки</p>
-          <p class="card-text">клуб доки доки</p>
-          <p class="card-text">другой доки доки</p>
+          <div id="accordion">
+            {% for document in documents %}
+            <div class="card accord">
+              <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#{{document.documentName}}" aria-expanded="false" aria-controls="{{document.documentName}}">
+                    {{document.documentName}}
+                  </button>
+                </h5>
+              </div>
+
+              <div id="{{document.documentName}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                  <p class="card-text"><a href='/catalog/{{document.file}}' download>Download</a></p>
+                  <p class="card-text">{{document.description}}</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 
 
-<div id="TasksContr" class="row align-items-center">
-  <div align="right" class="col">
-    <div class="card border-dark mb-3" style="width: 40rem; background: #00bfff;">
+  <div id="TasksContr" class="row align-items-center">
+    <div align="right" class="col">
+      <div class="card border-dark mb-3" style="width: 40rem; background: #00bfff;">
 
-      <div class="card-body">
-        <h5 class="card-title">задачи пользователей в проекте </h5>
-        {%for task in tasks %}
-        <p class="card-text">{{task.taskName}} -> {{task.followers}}</p>
-        {%endfor%}
+        <div class="card-body">
+          <h5 class="card-title">задачи пользователей в проекте </h5>
+          {%for task in tasks %}
+          <p class="card-text">{{task.taskName}} -> {{task.performer}}</p>
+          {%endfor%}
 
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
-<style>
-  #ButnNav {
-    margin-left: auto;
-    margin-right: 1%;
-  }
+  <style>
+    #ButnNav {
+      margin-left: auto;
+      margin-right: 1%;
+    }
 
-  .navbar {
-    background-color: #80c8ff
-  }
+    .navbar {
+      background-color: #80c8ff
+    }
 
-  #TasksContr {
-    margin-top: 1%;
-    margin-right: 1%;
-  }
+    #TasksContr {
+      margin-top: 1%;
+      margin-right: 1%;
+    }
 
-  #DocsContr {
-    margin-top: 1%;
-    margin-right: 1%;
-    background: #00bfff;
-  }
+    #DocsContr {
+      margin-top: 1%;
+      margin-right: 1%;
+      background: #00bfff;
+    }
 
-  #infoContr {
-    margin-top: 1%;
-    margin-left: 2%;
-    background: #0f93ff;
-  }
+    #infoContr {
+      margin-top: 1%;
+      margin-left: 2%;
+      background: #0f93ff;
+    }
 
-  .card-subtitle {
-    /* color: #000061; */
-    color: #120a8f;
-  }
+    .card-subtitle {
+      /* color: #000061; */
+      color: #120a8f;
+    }
 
-  .card-link {
-    color: #f0f8ff;
-  }
+    .card-link {
+      color: #f0f8ff;
+    }
 
-  .contract-page {
-    background-color: #b3deff
-  }
+    .contract-page {
+      background-color: #b3deff
+    }
 
-  .btn-block {
-    width: 250px;
-    background: #29aafe;
-    border-color: #29aafe;
-  }
+    .btn-block {
+      width: 250px;
+      background: #29aafe;
+      border-color: #29aafe;
+    }
 
-  .card-body {
-    background: linear-gradient(to left, #85b4ff, #87CEFA);
-    /* background: #e6e6fa; */
-  }
-</style>
+    .card-body {
+      background: linear-gradient(to left, #85b4ff, #87CEFA);
+      /* background: #e6e6fa; */
+    }
+    .accord{
+      background:#80c8ff;
+    }
+  </style>
 
-<script>
-  $(document).ready(
-    function() {}
-  )
-</script>
+  <script>
+    $(document).ready(
+      function() {}
+    )
+  </script>
 
-{%endblock%}
+  {%endblock%}
