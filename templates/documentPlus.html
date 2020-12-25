@@ -1,0 +1,32 @@
+{% extends "tasksPlus.html" %}
+{% load rest_framework %}
+
+{% block content %}
+<table class="table table-striped" id = "table">
+  <thead>
+    <tr>
+      <th scope = "col"> Name </th>
+      <th scope = "col"> Follower </th>
+      <th scope = "col"> Contract </th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for doc in document%}
+     <tr>
+      <td>{{doc.documentName}}</td>
+      <td><a href = '/catalog/{{doc.file}}' download> Файл </a></td>
+      <td>{{doc.contract}}</td>
+     </tr>
+     {%endfor%}
+  </tbody>
+</table>
+    <div class="container documentPlus-page">
+      <div id="forma" align="middle" class='container-fluid' id='documentPlus'>
+        <form action="{% url 'addDocument'%}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% render_form serializer %}
+          <input type="submit" value="Save">
+        </form>
+      </div>
+    </div>
+{% endblock %}

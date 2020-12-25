@@ -5,7 +5,7 @@
   <a class="nav-link" href={% url 'allContracts' %}>Contracts</a>
 </li>
 <li class="nav-item active">
-  <a class="nav-link" href={% url 'allTasks' %}>Your Tasks</a>
+  <a class="nav-link" href={% url 'myTasks' %}>Your Tasks</a>
 </li>
 <li class="nav-item">
   <a class="nav-link" href={% url 'addTask' %}>New Task</a>
@@ -15,64 +15,22 @@
 
 
 {% block content %}
-
-<div class="row justify-content-md-center">
-  <div id="contractCards" class="col-md-auto">
-    <div  class="card border-info mb-3" style="width: 18rem;">
-      <div class="card-body">
-        <form>
-        <div class="form-group row">
-        <div class="col-auto">
-          <label for="exampleFormControlTextarea1">Task:</label>
-        </div>
-        <div class="col-auto">
-          <label for="exampleFormControlTextarea1">Задача</label>
-        </div>
-        </div>
-        <div class="form-group row">
-        <div class="col-auto">
-          <label for="exampleFormControlTextarea1">Date:</label>
-        </div>
-        <div class="col-auto">
-          <label for="exampleFormControlTextarea1">Дата</label>
-        </div>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-          <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-          <label class="custom-control-label" for="customRadioInline1">Executed</label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-          <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input" checked>
-          <label class="custom-control-label" for="customRadioInline2">Not executed</label>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<style>
-  #contractCards{
-    padding-top: 10px;
-  }
-  .card-body {
-    background: linear-gradient(to left, #85b4ff, #87CEFA);
-    /* background: #e6e6fa; */
-  }
-
-  .card-title,
-  .card-text {
-    color: #000061;
-  }
-
-  .card-subtitle {
-    /* color: #000061; */
-    color: #120a8f;
-  }
-
-  .card-link {
-    color: #f0f8ff;
-  }
-</style>
-
+<table class="table table-striped" id = "table">
+  <thead>
+    <tr>
+      <th scope = "col"> Name </th>
+      <th scope = "col"> From </th>
+      <th scope = "col"> Contract </th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for task in tasks%}
+     <tr>
+      <td>{{task.taskName}}</td>
+      <td>{{task.sender}}</td>
+      <td>{{task.taskContractName}}</td>
+     </tr>
+     {%endfor%}
+  </tbody>
+</table>
 {% endblock %}

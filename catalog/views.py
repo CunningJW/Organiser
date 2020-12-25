@@ -1,10 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Contract, Task, Document
-from rest_framework import serializers, generics, mixins
-# from rest_framework.decorators import api_view
+from rest_framework import serializers, generics
+from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from rest_framework.parsers import MultiPartParser
+
+from rest_framework.views import APIView
 
 # Create your views here.
 ########################################################################
@@ -12,23 +15,35 @@ from django.contrib.auth.models import User
 class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
-        fields = ('id','contractName','zakupkiId','dateStart','dateEnd','display_tasks','getLink','linkToZakupkigov')
+        fields = ('id','contractName','zakupkiId','dateStart','dateEnd','display_tasks','getLink','linkToZakupkigov','currentUsers')
 
-class TaskGetSerializer(serializers.ModelSerializer):
+class TaskListSerializer(serializers.ModelSerializer):
     taskContractName = serializers.StringRelatedField()
-    followers = serializers.StringRelatedField()
+    performer = serializers.StringRelatedField()
     class Meta:
         model = Task
-        fields = ('taskName','followers','description','taskContractName','datetimeStart','datetimeEnd','status')
+        fields = ('taskName','performer','sender','description','taskContractName','datetimeStart','datetimeEnd','status')
+
+class DocumentGetSerializer(serializers.ModelSerializer):
+    contract = serializers.StringRelatedField()
+    class Meta:
+        model = Document
+        fields = ('documentName', 'description', 'file', 'contract')
+
+class TaskGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ('taskName','performer','description','taskContractName','datetimeStart','datetimeEnd')
 
 class TaskPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ('taskName','followers','description','taskContractName','datetimeStart','datetimeEnd','status')
+        fields = ('taskName','performer','sender','description','taskContractName','datetimeStart','datetimeEnd','status')
 
 class DocumentSerializer(serializers.ModelSerializer):
+    # file = serializers.FileField()
     class Meta:
-        model = Task
+        model = Document
         fields = ('documentName','description','file','contract')
 
 
@@ -40,101 +55,101 @@ class UserSerializer(serializers.ModelSerializer):
 def getCurrentUser(request):
     return request.user
 
-def contractlink(request):
-    return render(request, "tableofcontracts.html")
-
-def tasklink(request):
-    return render(request, "tableoftasks.html")
-
-def taskaddlink(request):
-    return render(request, "tasksPlus.html")
-
-def Proba(request):
-    return render(request, "Proba.html")
-
-def contractDetailLink(request,pk):
-    try:
-        contract_id=Contract.objects.get(pk=pk)
-        task = Task.objects.filter(taskContractName = pk)
-    except Contract.DoesNotExist:
-        raise Http404("Contract does not exist")
-    return render(request, "contractTemplate.html",context = {'contractid':contract_id, 'tasks' : task})
-
 def main(request):
     return render(request,'main.html')
 
 
 #######################################################################
-class CurrentUserView(generics.RetrieveAPIView):
-    def get(self, request):
-        userName = getCurrentUser(request)
-        user = User.objects.get(username = userName)
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
-
-class UserView(generics.ListAPIView):
-    queryset = User.objects.all()
-    def get(self, request):
-        # getCurrentUser(request)
-        queryset = self.get_queryset()
-        # template_name = 'tableofcontracts.html'
-        users = User.objects.all()#filter(user = 'getCurrentUser(request)')
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
 
 class ContractView(generics.ListAPIView):
-    queryset = Contract.objects.all()
+    renderer_classes = [TemplateHTMLRenderer]
+
+    template_name = 'tableofcontracts.html'
+
     def get(self, request):
-        # getCurrentUser(request)
-        queryset = self.get_queryset()
-        # template_name = 'tableofcontracts.html'
-        contracts = Contract.objects.all()#filter(user = 'getCurrentUser(request)')
+        contracts = Contract.objects.filter(currentUsers = getCurrentUser(request))
+        # contracts = Contract.objects.all()
+        users = User.objects.all()
         serializer = ContractSerializer(contracts, many=True)
-        return Response(serializer.data)
+        return Response({'serializer': serializer,'contracts': contracts, 'users': users})
 
 class ContractDetailView(generics.RetrieveAPIView):
-    def get_object(self, code):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "contractTemplate.html"
+
+    def get_object(self, pk):
         try:
-            return Contract.objects.get(id = code)
-        except:
-            return Response(status=404)
-    queryset = Contract.objects.all() #get(code = code)
-    def get(self,request,code):
-        contract = Contract.objects.get(id = code)
-        queryset = self.get_queryset()
-        serializer = ContractSerializer(contract)
-        return Response(serializer.data)
+            contract_id=Contract.objects.get(pk=pk)
+            tasks = Task.objects.filter(taskContractName = pk)
+        except Contract.DoesNotExist:
+            raise Http404("Contract does not exist")
 
-class TaskView(generics.ListAPIView):
-    queryset = Task.objects.all()
-    serializer_class = TaskGetSerializer
-    def get(self, request):
-        getCurrentUser(request)
-        # getTasks()
-        queryset = self.get_queryset()
-        # template_name = 'tableofcontracts.html'
-        tasks = Task.objects.all().order_by('taskContractName')#filter(user = 'getCurrentUser(request)')
-        serializer = TaskGetSerializer(tasks, many=True)
-        return Response(serializer.data)
-    def post(self, request):
-        serializer = TaskPostSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
+    def get(self,request,pk):
+        contract_id=Contract.objects.get(pk=pk)
+        tasks = Task.objects.filter(taskContractName = pk)
+        documents = Document.objects.filter(contract = pk)
+        serializer = ContractSerializer(contract_id)
+        return Response({'serializer': serializer,'contract_id': contract_id, 'tasks' : tasks, 'documents' : documents})
 
-class TaskUserFilteringView(generics.ListAPIView):
+
+class ContractFilteringView(generics.ListAPIView):
     def get_object(self, request):
         try:
-            return Task.objects.filter(followers = getCurrentUser(request))
+            return Contract.objects.filter(currentUsers = getCurrentUser(request))
+        except:
+            return Response(status=404)
+    queryset = Contract.objects.all()
+    def get(self,request):
+        contract = Contract.objects.filter(currentUsers = getCurrentUser(request))
+        queryset = self.get_queryset()
+        serializer = ContractSerializer(contract, many=True)
+        return Response(serializer.data)
+
+
+class TaskAddNew(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'tasksPlus.html'
+    # serializer_class = TaskPostSerializer
+
+    def get(self, request):
+        contracts = Contract.objects.all()
+        users = User.objects.all()
+        serializer = TaskGetSerializer()
+        return Response({'serializer': serializer,'contracts': contracts, 'users': users})
+
+    def post(self, request):
+        request.data._mutable = True
+        request.data['sender'] = str(getCurrentUser(request).id)
+        request.data['status'] = str(0)
+        request.data._mutable = False
+        print(request.data)
+        serializer = TaskPostSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return redirect('myTasks')
+        else:
+            return Response(serializer.errors)
+
+
+
+
+class TaskUserFilteringView(generics.ListAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'tableoftasks.html'
+
+    def get_object(self, request):
+        try:
+            return Task.objects.filter(performer = getCurrentUser(request)).order_by('taskContractName')
         except:
             return Response(status=404)
     queryset = Task.objects.all()
     def get(self,request):
-        task = Task.objects.filter(followers = getCurrentUser(request))
+        myTasks = Task.objects.filter(performer = getCurrentUser(request)).order_by('taskContractName__contractName')
         queryset = self.get_queryset()
-        serializer = TaskGetSerializer(task, many=True)
-        return Response(serializer.data)
+        serializer = TaskListSerializer(myTasks, many=True)
+        return Response({'serializer': serializer,'tasks': myTasks})
+
+
 
 class TaskDetailView(generics.ListAPIView):
     def get_object(self, code):
@@ -146,5 +161,25 @@ class TaskDetailView(generics.ListAPIView):
     def get(self,request,code):
         task = Task.objects.filter(taskContractName = code)
         queryset = self.get_queryset()
-        serializer = TaskGetSerializer(task, many=True)
+        serializer = TaskListSerializer(task, many=True)
         return Response(serializer.data)
+
+class DocumentView(APIView):
+    # queryset = Document.objects.all()
+    # serializer_class = DocumentSerializer
+    renderer_classes = [MultiPartParser,TemplateHTMLRenderer]
+    template_name = 'documentPlus.html'
+
+    def get(self, request):
+        document = Document.objects.all()
+        serializer = DocumentSerializer()
+        return Response({'serializer' : serializer, 'document' : document})
+
+    def post(self, request):
+        serializer = DocumentSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return redirect('myTasks')
+        else:
+            print("err")
+            return Response(serializer.errors)
