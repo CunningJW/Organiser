@@ -33,7 +33,8 @@ class Contract(models.Model):
 
 class Task(models.Model):
     taskName = models.CharField(max_length=200, help_text="Enter a task name")
-    followers = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, help_text="Who will need to complete it?")
+    performer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, help_text="Who will need to complete it?", related_name="task_for")
+    sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="task_from")
     description = models.TextField(help_text="Enter a task description")
     taskContractName = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True)
     datetimeStart = models.DateTimeField()

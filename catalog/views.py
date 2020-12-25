@@ -20,14 +20,12 @@ class ContractSerializer(serializers.ModelSerializer):
         model = Contract
         fields = ('id','contractName','zakupkiId','dateStart','dateEnd','display_tasks','getLink','linkToZakupkigov','currentUsers')
 
-
-
-class TaskGetSerializer(serializers.ModelSerializer):
+class TaskListSerializer(serializers.ModelSerializer):
     taskContractName = serializers.StringRelatedField()
-    followers = serializers.StringRelatedField()
+    performer = serializers.StringRelatedField()
     class Meta:
         model = Task
-        fields = ('taskName','followers','description','taskContractName','datetimeStart','datetimeEnd','status')
+        fields = ('taskName','performer','sender','description','taskContractName','datetimeStart','datetimeEnd','status')
 
 class DocumentGetSerializer(serializers.ModelSerializer):
     contract = serializers.StringRelatedField()
@@ -35,10 +33,17 @@ class DocumentGetSerializer(serializers.ModelSerializer):
         model = Document
         fields = ('documentName', 'description', 'file', 'contract')
 
+
+
+class TaskGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ('taskName','performer','description','taskContractName','datetimeStart','datetimeEnd')
+
 class TaskPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ('taskName','followers','description','taskContractName','datetimeStart','datetimeEnd','status')
+        fields = ('taskName','performer','sender','description','taskContractName','datetimeStart','datetimeEnd','status')
 
 class DocumentSerializer(serializers.ModelSerializer):
     # file = serializers.FileField()
@@ -114,18 +119,22 @@ class TaskAddNew(APIView):
     # serializer_class = TaskPostSerializer
 
     def get(self, request):
-        getCurrentUser(request)
-
         contracts = Contract.objects.all()
         users = User.objects.all()
-
-        serializer = TaskPostSerializer()
+        # task = Task.objects.filter(sender = getCurrentUser(request))
+        serializer = TaskGetSerializer(context = {'currentUser': getCurrentUser(request)})
         return Response({'serializer': serializer,'contracts': contracts, 'users': users})
 
     def post(self, request):
-        serializer = TaskPostSerializer(data = request.data)
+        request.data._mutable = True
+        request.data['sender'] = str(getCurrentUser(request).id)
+        request.data['status'] = str(0)
+        request.data._mutable = False
+        print(request.data)
+        serializer = TaskPostSerializer(data = request.data) #,context = {'currentUser': getCurrentUser(request)}
         if serializer.is_valid():
             serializer.save()
+            # return Response(serializer.data)
             return redirect('myTasks')
         else:
             return Response(serializer.errors)
@@ -139,14 +148,14 @@ class TaskUserFilteringView(generics.ListAPIView):
 
     def get_object(self, request):
         try:
-            return Task.objects.filter(followers = getCurrentUser(request)).order_by('taskContractName')
+            return Task.objects.filter(performer = getCurrentUser(request)).order_by('taskContractName')
         except:
             return Response(status=404)
     queryset = Task.objects.all()
     def get(self,request):
-        myTasks = Task.objects.filter(followers = getCurrentUser(request)).order_by('taskContractName__contractName')
+        myTasks = Task.objects.filter(performer = getCurrentUser(request)).order_by('taskContractName__contractName')
         queryset = self.get_queryset()
-        serializer = TaskGetSerializer(myTasks, many=True)
+        serializer = TaskListSerializer(myTasks, many=True)
         return Response({'serializer': serializer,'tasks': myTasks})
 
 
@@ -161,7 +170,7 @@ class TaskDetailView(generics.ListAPIView):
     def get(self,request,code):
         task = Task.objects.filter(taskContractName = code)
         queryset = self.get_queryset()
-        serializer = TaskGetSerializer(task, many=True)
+        serializer = TaskListSerializer(task, many=True)
         return Response(serializer.data)
 
 class DocumentView(APIView):
@@ -183,11 +192,3 @@ class DocumentView(APIView):
         else:
             print("err")
             return Response(serializer.errors)
-
-# class DocumentDownloadlView(APIView):
-#     def get(self, request, filename):
-#         pathToFile = MEDIA_ROOT + filename
-#         fileOpen = open(pathToFile, 'rb')
-#         response = HttpResponse(File(fileOpen).read())
-#         response['Content-Disposition'] = 'attachment'
-#         return response
