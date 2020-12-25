@@ -65,15 +65,13 @@ class ContractView(generics.ListAPIView):
     renderer_classes = [TemplateHTMLRenderer]
 
     template_name = 'tableofcontracts.html'
-    queryset = Contract.objects.all()
-
 
     def get(self, request):
-        queryset = self.get_queryset().filter(currentUsers = getCurrentUser(request))
+        contracts = Contract.objects.filter(currentUsers = getCurrentUser(request))
         # contracts = Contract.objects.all()
         users = User.objects.all()
-        serializer = ContractSerializer(queryset, many=True)
-        return Response({'serializer': serializer,'contracts': queryset, 'users': users})
+        serializer = ContractSerializer(contracts, many=True)
+        return Response({'serializer': serializer,'contracts': contracts, 'users': users})
 
 class ContractDetailView(generics.RetrieveAPIView):
     renderer_classes = [TemplateHTMLRenderer]
