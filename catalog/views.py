@@ -121,8 +121,7 @@ class TaskAddNew(APIView):
     def get(self, request):
         contracts = Contract.objects.all()
         users = User.objects.all()
-        # task = Task.objects.filter(sender = getCurrentUser(request))
-        serializer = TaskGetSerializer(context = {'currentUser': getCurrentUser(request)})
+        serializer = TaskGetSerializer()
         return Response({'serializer': serializer,'contracts': contracts, 'users': users})
 
     def post(self, request):
@@ -131,10 +130,9 @@ class TaskAddNew(APIView):
         request.data['status'] = str(0)
         request.data._mutable = False
         print(request.data)
-        serializer = TaskPostSerializer(data = request.data) #,context = {'currentUser': getCurrentUser(request)}
+        serializer = TaskPostSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
-            # return Response(serializer.data)
             return redirect('myTasks')
         else:
             return Response(serializer.errors)
