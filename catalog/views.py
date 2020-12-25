@@ -1,14 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import Contract, Task, Document
-from rest_framework import serializers, generics, mixins
+from rest_framework import serializers, generics
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
-from django.core.files import File
-from django.http import HttpResponse
-# from organiser.settings import MEDIA_ROOT
+from rest_framework.parsers import MultiPartParser
 
 from rest_framework.views import APIView
 
@@ -32,8 +29,6 @@ class DocumentGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
         fields = ('documentName', 'description', 'file', 'contract')
-
-
 
 class TaskGetSerializer(serializers.ModelSerializer):
     class Meta:
