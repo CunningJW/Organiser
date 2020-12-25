@@ -42,13 +42,14 @@
 
     {%block login%}
     {% if user.is_authenticated %}
-    <div class = "container">
-      <div id = "UserNameField">  Hello, {{user.username}}   </div>
-    </div>
+    <div class="d-flex">
+    <h6 class = 'px-2'>Hello, {{user.username}}</h6>
+
       <button onclick="location.href='{% url 'logout' %}'" class="btn btn-primary" type="submit">Log Out</button>
     {%else%}
       <button onclick="location.href='{% url 'login' %}'" class="btn btn-primary" type="submit">Log In</button>
     {%endif%}
+    </div>
     {%endblock%}
   </div>
 </nav>
@@ -85,7 +86,7 @@
   </picture>
 
   <div>
-    <div id = "teamInfo" class="container-fluid">
+    <div id = "teamInfo" class="container-fluid position-absolute bottom">
       <h5><i>Немного информации о нас:</i></h5>
       <h4><i>Попов В.А. Круглов С.В. Малинин М.Ю.</i></h4>
     </div>

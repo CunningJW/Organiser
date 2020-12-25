@@ -55,26 +55,6 @@ class UserSerializer(serializers.ModelSerializer):
 def getCurrentUser(request):
     return request.user
 
-def contractlink(request):
-    return render(request, "tableofcontracts.html")
-
-def testdocumentlink(request):
-    return render(request, "documentPlus.html")
-
-def tasklink(request):
-    return render(request, "tableoftasks.html")
-
-def taskaddlink(request):
-    return render(request, "tasksPlus.html")
-
-# def contractDetailLink(request,pk):
-#     try:
-#         contract_id=Contract.objects.get(pk=pk)
-#         task = Task.objects.filter(taskContractName = pk)
-#     except Contract.DoesNotExist:
-#         raise Http404("Contract does not exist")
-#     return render(request, "contractTemplate.html",context = {'contractid':contract_id, 'tasks' : task})
-#
 def main(request):
     return render(request,'main.html')
 
