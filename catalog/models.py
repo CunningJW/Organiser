@@ -25,11 +25,9 @@ class Contract(models.Model):
     def getLink(self):
         return reverse('contractDetail', args=[str(self.id)])
 
-
-
-
     class Meta:
         db_table = "Contract"
+
 
 class Task(models.Model):
     taskName = models.CharField(max_length=200, help_text="Enter a task name")
@@ -40,7 +38,6 @@ class Task(models.Model):
     datetimeStart = models.DateTimeField()
     datetimeEnd = models.DateTimeField()
     status = models.CharField(max_length=1, help_text="Enter a task status 0 - active, 1 - completed")
-
 
     def __str__(self):
         return self.taskName
