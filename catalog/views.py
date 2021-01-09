@@ -1,57 +1,13 @@
 from django.shortcuts import render, redirect
-from .models import Contract, Task, Document
-from rest_framework import serializers, generics
+from rest_framework import generics
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
-from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework.parsers import MultiPartParser
-
 from rest_framework.views import APIView
 
-# Create your views here.
-########################################################################
+from .serializers import *
 
-class ContractSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Contract
-        fields = ('id','contractName','zakupkiId','dateStart','dateEnd','display_tasks','getLink','linkToZakupkigov','currentUsers')
-
-class TaskListSerializer(serializers.ModelSerializer):
-    taskContractName = serializers.StringRelatedField()
-    performer = serializers.StringRelatedField()
-    class Meta:
-        model = Task
-        fields = ('taskName','performer','sender','description','taskContractName','datetimeStart','datetimeEnd','status')
-
-class DocumentGetSerializer(serializers.ModelSerializer):
-    contract = serializers.StringRelatedField()
-    class Meta:
-        model = Document
-        fields = ('documentName', 'description', 'file', 'contract')
-
-class TaskGetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        fields = ('taskName','performer','description','taskContractName','datetimeStart','datetimeEnd')
-
-class TaskPostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        fields = ('taskName','performer','sender','description','taskContractName','datetimeStart','datetimeEnd','status')
-
-class DocumentSerializer(serializers.ModelSerializer):
-    # file = serializers.FileField()
-    class Meta:
-        model = Document
-        fields = ('documentName','description','file','contract')
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username']
-#######################################################################
 def getCurrentUser(request):
     return request.user
 
@@ -63,14 +19,10 @@ def main(request):
 
 class ContractView(generics.ListAPIView):
     renderer_classes = [TemplateHTMLRenderer]
-
     template_name = 'tableofcontracts.html'
-    queryset = Contract.objects.all()
-
 
     def get(self, request):
-        queryset = self.get_queryset()
-        contracts = Contract.objects.all()
+        contracts = Contract.objects.filter(currentUsers = getCurrentUser(request))
         users = User.objects.all()
         # serializer = ContractSerializer(contracts, many=True)
         return Response({'contracts': contracts, 'users': users})
@@ -97,26 +49,11 @@ class ContractDetailView(generics.RetrieveAPIView):
         serializer = ContractSerializer(contract_id)
         return Response({'serializer': serializer,'contract_id': contract_id, 'tasks' : tasks, 'documents' : documents, 'userTasks' : ourDict})
 
-
-class ContractFilteringView(generics.ListAPIView):
-    def get_object(self, request):
-        try:
-            return Contract.objects.filter(currentUsers = getCurrentUser(request))
-        except:
-            return Response(status=404)
-    queryset = Contract.objects.all()
-    def get(self,request):
-        contract = Contract.objects.filter(currentUsers = getCurrentUser(request))
-        queryset = self.get_queryset()
-        serializer = ContractSerializer(contract, many=True)
-        return Response(serializer.data)
-
-
 class TaskAddNew(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'tasksPlus.html'
-    # serializer_class = TaskPostSerializer
 
+    queryset = Task.objects.all()
     def get(self, request):
         contracts = Contract.objects.all()
         users = User.objects.all()
@@ -136,9 +73,6 @@ class TaskAddNew(APIView):
         else:
             return Response(serializer.errors)
 
-
-
-
 class TaskUserFilteringView(generics.ListAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'tableoftasks.html'
@@ -154,8 +88,6 @@ class TaskUserFilteringView(generics.ListAPIView):
         queryset = self.get_queryset()
         serializer = TaskListSerializer(myTasks, many=True)
         return Response({'serializer': serializer,'tasks': myTasks})
-
-
 
 class TaskDetailView(generics.ListAPIView):
     def get_object(self, code):
@@ -173,6 +105,7 @@ class TaskDetailView(generics.ListAPIView):
 class DocumentView(APIView):
     # queryset = Document.objects.all()
     # serializer_class = DocumentSerializer
+
     renderer_classes = [MultiPartParser,TemplateHTMLRenderer]
     template_name = 'documentPlus.html'
 

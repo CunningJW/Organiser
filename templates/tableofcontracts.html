@@ -24,9 +24,8 @@
           <h6 class="card-subtitle mb-2"> {{contract.zakupkiId}} </h6>
           <h6 class="card-text ">Date Start: {{contract.dateStart}} </h6>
           <h6 class="card-text">Date End: {{contract.dateEnd}} </h6>
-          <h6 class="card-text"> {{contract.currentUsers}} </h6>
           <a href='{{contract.getLink}}' class="card-link"> Open Contract </a>
-          <a href="#" class="card-link" data-toggle="popover" title="Popover title">User List</a>
+          <a href="#" class="card-link" data-toggle="popover" data-trigger="focus" title="Users:" data-content='{{contract.display_users}}'>User List</a>
 
         </div>
       </div>
@@ -59,9 +58,17 @@
   .card-link {
     color: #f0f8ff;
   }
+
+  .popover-header {
+    background: #80c8ff;
+  }
 </style>
 
-
+<script>
+  $(function() {
+    $('[data-toggle="popover"]').popover()
+  })
+</script>
 
 
 {% endblock %}
