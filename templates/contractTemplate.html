@@ -41,9 +41,10 @@
 
       <div class="card-body">
         <h5 class="card-title">задачи пользователей в проекте </h5>
-        {%for task in tasks %}
-        <p class="card-text">{{task.taskName}} -> {{task.performer}}</p>
-        {%endfor%}
+          {%for task in tasks %}
+            <p class="card-text">{{task.taskName}} -> {{task.performer}}</p>
+          {%endfor%}
+          <p> Hello! </p>
 
       </div>
     </div>

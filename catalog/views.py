@@ -72,8 +72,8 @@ class ContractView(generics.ListAPIView):
         queryset = self.get_queryset()
         contracts = Contract.objects.all()
         users = User.objects.all()
-        serializer = ContractSerializer(contracts, many=True)
-        return Response({'serializer': serializer,'contracts': contracts, 'users': users})
+        # serializer = ContractSerializer(contracts, many=True)
+        return Response({'contracts': contracts, 'users': users})
 
 class ContractDetailView(generics.RetrieveAPIView):
     renderer_classes = [TemplateHTMLRenderer]
@@ -87,11 +87,15 @@ class ContractDetailView(generics.RetrieveAPIView):
             raise Http404("Contract does not exist")
 
     def get(self,request,pk):
+        ourDict = {}
         contract_id=Contract.objects.get(pk=pk)
         tasks = Task.objects.filter(taskContractName = pk)
+        for i in contract_id.currentUsers.all():
+             ourDict[i] = Task.objects.filter(performer = i)
+        print(ourDict)
         documents = Document.objects.filter(contract = pk)
         serializer = ContractSerializer(contract_id)
-        return Response({'serializer': serializer,'contract_id': contract_id, 'tasks' : tasks, 'documents' : documents})
+        return Response({'serializer': serializer,'contract_id': contract_id, 'tasks' : tasks, 'documents' : documents, 'userTasks' : ourDict})
 
 
 class ContractFilteringView(generics.ListAPIView):
